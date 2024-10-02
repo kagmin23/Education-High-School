@@ -26,7 +26,7 @@ const MainLayout = () => {
         {/* Login and Register Buttons */}
         <div className="flex flex-row items-center justify-center mt-5">
           <Button type="link" className="text-white">
-            <Link to="/">Đăng nhập</Link>
+            <Link to="/select-role-login">Đăng nhập</Link>
           </Button>
           <Button type="link" className="text-white">
             <Link to="/">Đăng ký</Link>
