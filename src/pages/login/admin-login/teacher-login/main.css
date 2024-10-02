@@ -1,0 +1,45 @@
+/* Background hình nền với overlay */
+.login-container {
+    background-image: url('https://example.com/education-background.jpg');
+  }
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+  }
+  
+  .login-box {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Đổ bóng và hover */
+  input.ant-input,
+  .ant-input-password {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  input.ant-input:focus,
+  input.ant-input-password:focus {
+    box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+  }
+  
+  /* Hiệu ứng hover cho button */
+  button.ant-btn {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  button.ant-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 140, 186, 0.4);
+  }
+  
+  /* Text sinh động */
+  .text-white {
+    color: white;
+  }
+  
+  .text-yellow-400 {
+    color: #fbbf24;
+  }
+  
