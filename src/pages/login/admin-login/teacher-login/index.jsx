@@ -1,50 +1,70 @@
-// Login.jsx
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Typography } from '@mui/material';
-import { Button, Form, Input } from 'antd';
-import 'antd/dist/reset.css';
-import React from 'react';
-import './main.css';
+import { ArrowLeftOutlined, LockOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Input, notification } from 'antd';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const LoginTeacher = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const accountsTestTeacher = [
+    {
+      username: 'giaovien1',
+      password: 'matkhau123',
+    },
+    {
+      username: 'giaovien2',
+      password: 'matkhau123',
+    },
+  ];
+
   const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      const { username, password } = values;
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+      const accountFound = accountsTestTeacher.find(
+        (account) => account.username === username && account.password === password
+      );
+
+      if (accountFound) {
+        notification.success('Đăng nhập thành công!');
+        navigate('/teacher');
+      } else {
+        toast.error('Tên đăng nhập hoặc mật khẩu không đúng!');
+      }
+    }, 1000);
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-center bg-no-repeat bg-cover login-container">
-      <div className="absolute inset-0 bg-blue-600 opacity-50 overlay"></div>
-
-      <div className="relative z-10 w-full max-w-sm p-8 bg-white rounded-lg shadow-2xl login-box md:max-w-md lg:max-w-lg">
-        <div className="mb-8 text-center">
-          <Typography variant="h3" className="font-bold text-white">
-            Chào Mừng Đến Hệ Thống Giáo Dục
-          </Typography>
-          <Typography variant="h6" className="text-gray-300">
-            Hãy đăng nhập để tiếp tục
-          </Typography>
-        </div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        {/* Nút quay lại */}
+        <Button
+          icon={<ArrowLeftOutlined />}
+          className="absolute z-10 top-4 left-4"
+          onClick={() => navigate(-1)}
+          type="link"
+        />
+        <div className="text-center"><SolutionOutlined className="mb-8 text-5xl text-orange-600" /></div>
+        <h2 className="mb-6 text-3xl font-bold text-center text-gray-800">Giáo viên đăng nhập</h2>
 
         <Form
-          name="login"
+          name="login_teacher"
+          className="login-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          className="space-y-6"
         >
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản!' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Tên tài khoản"
-              size="large"
-              className="rounded-full"
+              placeholder="Tên đăng nhập"
             />
           </Form.Item>
 
@@ -55,30 +75,33 @@ const Login = () => {
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
               placeholder="Mật khẩu"
-              size="large"
-              className="rounded-full"
             />
           </Form.Item>
 
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="w-full py-2 text-lg rounded-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:to-purple-700"
-            >
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Ghi nhớ tôi</Checkbox>
+            </Form.Item>
+            <a className="float-right" href="/forgot-password">
+              Quên mật khẩu?
+            </a>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="w-full login-form-button" loading={loading}>
               Đăng nhập
             </Button>
           </Form.Item>
+
+          <p className="px-5 pt-3 text-xs text-center text-red-500">
+            * Bạn là giáo viên tại trường? Hãy đăng nhập đúng với tài khoản đã được cung cấp từ nhà trường!{' '}
+          </p>
         </Form>
 
-        <div className="mt-6 text-center">
-          <Typography variant="body2" className="text-white">
-            Chưa có tài khoản? <a href="#" className="text-yellow-400 hover:underline">Đăng ký ngay</a>
-          </Typography>
-        </div>
+        <ToastContainer />
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginTeacher;

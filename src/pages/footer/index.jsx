@@ -1,8 +1,8 @@
-import { ApartmentOutlined, DisconnectOutlined, FacebookOutlined, FieldTimeOutlined, HomeOutlined, InstagramOutlined, IssuesCloseOutlined, MailOutlined, PhoneOutlined, TwitterOutlined } from '@ant-design/icons';
+import { ApartmentOutlined, FacebookOutlined, FieldTimeOutlined, HomeOutlined, InstagramOutlined, IssuesCloseOutlined, MailOutlined, PaperClipOutlined, PhoneOutlined, TwitterOutlined } from '@ant-design/icons';
 
 const Footer = () => {
   return (
-    <footer className="bottom-0 w-full p-8 text-white bg-gray-900 ">
+    <footer className="bottom-0 w-full p-8 text-white bg-blue-700 ">
       {/* Grid for footer layout */}
       <div className="container grid grid-cols-1 gap-8 mx-auto md:grid-cols-3">
         
@@ -54,7 +54,7 @@ const Footer = () => {
               <InstagramOutlined className="text-2xl hover:text-pink-500" />
             </a>
             <a href="https://site.com" target="_blank" rel="noopener noreferrer">
-              <DisconnectOutlined className="text-2xl hover:text-blue-700" />
+              <PaperClipOutlined className="text-2xl hover:text-blue-700" />
             </a>
           </div>
         </div>

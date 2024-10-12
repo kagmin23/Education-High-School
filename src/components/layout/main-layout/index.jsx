@@ -1,37 +1,76 @@
-import { BookOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu } from 'antd';
+import { HomeOutlined, InsertRowAboveOutlined, SignatureOutlined, SnippetsOutlined, UserOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
+import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Footer from '../../../pages/footer';
 
 const { Header, Content, Sider } = Layout;
+const { SubMenu } = Menu;
 
 const MainLayout = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
+  const handleCollapse = (coll) => {
+    setCollapsed(coll);
+  };
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* Sidebar */}
-      <Sider collapsible>
-        <div className="py-4 text-lg text-center text-white bg-blue-300">Logo</div>
+      <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse}>
+        {/* Replace the logo text with an image */}
+        <div className="text-center ">
+          <img
+            src="https://st2.depositphotos.com/4398873/9234/v/450/depositphotos_92345772-stock-illustration-education-logo-concept.jpg" // Update this path to your logo image
+            alt="Logo"
+            style={{ width: '100%', height: '100%', maxHeight: '170px' }} // Adjust the styles as needed
+          />
+        </div>
         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            <Link to="/">Trang chủ</Link>
+          <SubMenu key="sub1" icon={<HomeOutlined />} title="Tuỳ chọn">
+            <Menu.Item key="1-1">
+              <Link to="/student">Trang chủ</Link>
+            </Menu.Item>
+            <Menu.Item key="1-2">
+              <Link to="/student/info">Thông tin</Link>
+            </Menu.Item>
+            <Menu.Item key="1-3">
+              <Link to="/student/achievements">Danh hiệu</Link>
+            </Menu.Item>
+            <Menu.Item key="1-4">
+              <Link to="/student/event">Sự kiện</Link>
+            </Menu.Item>
+            <Menu.Item key="1-5">
+              <Link to="/student/activity">Hoạt động</Link>
+            </Menu.Item>
+            <Menu.Item key="1-6">
+              <Link to="/student/blog">Blog</Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <Menu.Item key="2" icon={<InsertRowAboveOutlined />}>
+            <Link to="/login/student">Thời Khoá Biểu</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<BookOutlined />}>
-            <Link to="/">Danh hiệu</Link>
+
+          <SubMenu key="sub2" icon={<SignatureOutlined />} title="Lịch Kiểm tra">
+            <Menu.Item key="3-1">
+              <Link to="/login/student">Kiểm tra lớp</Link>
+            </Menu.Item>
+            <Menu.Item key="3-2">
+              <Link to="/login/student">Học kỳ</Link>
+            </Menu.Item>
+            <Menu.Item key="3-3">
+              <Link to="/login/student">Tốt nghiệp</Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <Menu.Item key="4" icon={<SnippetsOutlined />}>
+            <Link to="/login/student">Tài liệu Giáo án</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<UserOutlined />}>
-            <Link to="/">Blog</Link>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            <Link to="/login/parent">Phụ huynh</Link>
           </Menu.Item>
         </Menu>
-
-        {/* Login and Register Buttons */}
-        <div className="flex flex-row items-center justify-center mt-5">
-          <Button type="link" className="text-white">
-            <Link to="/select-role-login">Đăng nhập</Link>
-          </Button>
-          <Button type="link" className="text-white">
-            <Link to="/">Đăng ký</Link>
-          </Button>
-        </div>
       </Sider>
 
       {/* Main Content Area */}
@@ -46,7 +85,7 @@ const MainLayout = () => {
         {/* Flexbox Layout to ensure footer stays at the bottom */}
         <div className="flex flex-col min-h-screen">
           {/* Content */}
-          <Content className="flex-grow p-2 m-2 bg-white rounded-lg shadow-md">
+          <Content className="flex-grow p-1 m-1 rounded-lg shadow-md bg-blue-50">
             <Outlet />
           </Content>
 

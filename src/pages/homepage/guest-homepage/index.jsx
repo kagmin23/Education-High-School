@@ -3,7 +3,7 @@ import Header from "./header";
 import HeroSection from "./hero-section";
 
 
-const Homepage = () => {
+const HomepageGuest = () => {
   return (
     <div>
       <Header />
@@ -14,4 +14,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default HomepageGuest;

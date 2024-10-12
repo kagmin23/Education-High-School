@@ -4,7 +4,10 @@ import { Menu } from 'antd';
 const Header = () => {
   return (
     <header className="p-4 bg-blue-600">
-      <h1 className="text-3xl text-white">High School Education</h1>
+      <div className="flex justify-between">
+        <h1 className="text-xl text-white">High School Education</h1>
+      </div>
+
       <Menu
         mode="horizontal"
         className="pt-3 bg-blue-600"

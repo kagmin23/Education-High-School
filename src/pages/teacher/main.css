@@ -1,0 +1,12 @@
+/* RouterTeacher.css */
+
+.teacher-layout {
+    display: flex; /* Sử dụng flexbox để bố trí sidebar và nội dung */
+  }
+  
+  .teacher-content {
+    flex: 1; /* Nội dung sẽ chiếm phần còn lại */
+    padding: 16px; /* Khoảng cách bên trong cho nội dung */
+    background: #f0f2f5; /* Màu nền cho nội dung */
+  }
+  

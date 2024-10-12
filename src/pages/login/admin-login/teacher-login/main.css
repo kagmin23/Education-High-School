@@ -1,45 +1,27 @@
-/* Background hình nền với overlay */
-.login-container {
-    background-image: url('https://example.com/education-background.jpg');
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
   }
-  
-  .overlay {
-    position: absolute;
-    inset: 0;
+  50% {
+    background-position: 100% 50%;
   }
-  
-  .login-box {
-    position: relative;
-    z-index: 10;
+  100% {
+    background-position: 0% 50%;
   }
-  
-  /* Đổ bóng và hover */
-  input.ant-input,
-  .ant-input-password {
-    transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  input.ant-input:focus,
-  input.ant-input-password:focus {
-    box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
-  }
-  
-  /* Hiệu ứng hover cho button */
-  button.ant-btn {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  button.ant-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0, 140, 186, 0.4);
-  }
-  
-  /* Text sinh động */
-  .text-white {
-    color: white;
-  }
-  
-  .text-yellow-400 {
-    color: #fbbf24;
-  }
-  
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.gradient-background {
+  height: 100vh;
+  background: linear-gradient(45deg, #ff6b6b, #f06595, #845ef7, #5c7cfa);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

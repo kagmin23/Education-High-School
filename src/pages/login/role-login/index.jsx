@@ -1,12 +1,22 @@
-import { KeyOutlined, SolutionOutlined, UserOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, KeyOutlined, SolutionOutlined, UserOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RoleSelectionPage = () => {
+  const navigate = useNavigate(); // Sử dụng hook để điều hướng
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-600">
       {/* Outer Container with Increased Width and Padding */}
-      <div className="w-full p-12 bg-white rounded-lg shadow-lg max-w-7xl">
+      <div className="relative w-full p-12 bg-white rounded-lg shadow-lg max-w-7xl">
+        {/* Nút quay lại */}
+        <Button
+          icon={<ArrowLeftOutlined />}
+          className="absolute z-10 top-4 left-4" // Đặt vị trí tuyệt đối ở góc trái
+          onClick={() => navigate(-1)} // Quay lại trang trước
+          type="link"
+        />
+        
         <h1 className="mb-8 text-3xl font-bold text-center text-gray-800">Bạn muốn đăng nhập với Vai trò?</h1>
 
         {/* Container for Role Cards */}
@@ -20,7 +30,7 @@ const RoleSelectionPage = () => {
             <Link to="/login/parent">
               <Button type="primary" size="large">Chọn</Button>
             </Link>
-            <p className="mt-2 text-xs text-gray-500">Bạn là phụ huynh?</p> {/* Dòng nhỏ mới thêm vào */}
+            <p className="mt-2 text-xs text-gray-500">Bạn là phụ huynh?</p>
           </div>
 
           {/* Student Role Card */}
@@ -31,7 +41,7 @@ const RoleSelectionPage = () => {
             <Link to="/login/student">
               <Button type="primary" size="large">Chọn</Button>
             </Link>
-            <p className="mt-2 text-xs text-gray-500">Bạn là học sinh?</p> {/* Dòng nhỏ mới thêm vào */}
+            <p className="mt-2 text-xs text-gray-500">Bạn là học sinh?</p>
           </div>
 
           {/* Teacher Role Card */}
@@ -42,7 +52,7 @@ const RoleSelectionPage = () => {
             <Link to="/login/teacher">
               <Button type="primary" size="large">Chọn</Button>
             </Link>
-            <p className="mt-2 text-xs text-gray-500">Bạn là giáo viên?</p> {/* Dòng nhỏ mới thêm vào */}
+            <p className="mt-2 text-xs text-gray-500">Bạn là giáo viên?</p>
           </div>
 
           {/* Admin Role Card */}
@@ -53,13 +63,13 @@ const RoleSelectionPage = () => {
             <Link to="/login/admin">
               <Button type="primary" size="large">Chọn</Button>
             </Link>
-            <p className="mt-2 text-xs text-gray-500">Bạn là admin?</p> {/* Dòng nhỏ mới thêm vào */}
+            <p className="mt-2 text-xs text-gray-500">Bạn là admin?</p>
           </div>
           
         </div>
 
         {/* Note below the Role Cards */}
-        <div className="mt-8 italic text-center text-gray-600">
+        <div className="mt-8 italic text-center text-gray-600 text-red-500">
           <p>* Vui lòng hãy lựa chọn vai trò đúng với tài khoản đã được cung cấp hoặc đăng ký tại nhà trường!</p>
         </div>
       </div>
