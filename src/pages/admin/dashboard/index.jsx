@@ -28,7 +28,7 @@ const DashboardAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen p-10 bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <h1 className="mb-8 text-3xl font-bold text-gray-800">Dashboard Tổng quan</h1>
 
       {/* Tổng quan về số lượng */}

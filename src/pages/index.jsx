@@ -1,8 +1,12 @@
 export { default as DashboardAdmin } from './admin/dashboard/index';
+export { default as RouterAdmin } from './admin/index';
+export { default as SchoolBlog } from './blog/index';
+export { default as SchoolEvent } from './event/index';
 export { default as Footer } from './footer/index';
 export { default as HomepageGuest } from './homepage/guest-homepage/index';
 export { default as HomepageParent } from './homepage/parent-homepage/index';
 export { default as HomepageStudent } from './homepage/student-homepage/index';
+export { default as SchoolInfo } from './info/index';
 export { default as LoginAdmin } from './login/admin-login/admin-login/index';
 export { default as LoginTeacher } from './login/admin-login/teacher-login/index';
 export { default as RoleSelectionPage } from './login/role-login/index';

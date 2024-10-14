@@ -3,7 +3,6 @@ import MainLayout from '../components/layout/main-layout';
 import ParentLayout from '../components/layout/parent-layout';
 import StudentLayout from '../components/layout/student-layout';
 import {
-  DashboardAdmin,
   DoTest,
   HomepageGuest,
   HomepageParent,
@@ -13,7 +12,11 @@ import {
   LoginStudent,
   LoginTeacher,
   RoleSelectionPage,
+  RouterAdmin,
   RouterTeacher,
+  SchoolBlog,
+  SchoolEvent,
+  SchoolInfo,
   StudentRegister,
   TimeTableStudent
 } from '../pages';
@@ -31,7 +34,13 @@ function AppRouter() {
       <Route path="/login/parent" element={<LoginParent />} />
       <Route path="/login/admin" element={<LoginAdmin />} />
 
-      <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+      {/* Guest */}
+      <Route path="/info" element={<SchoolInfo />} />
+      <Route path="/blog" element={<SchoolBlog />} />
+      <Route path="/event" element={<SchoolEvent />} />
+
+      {/* Admin */}
+      <Route path="/admin/*" element={<RouterAdmin />} />
 
       {/* Teacher */}
       <Route path="/teacher/*" element={<RouterTeacher />} />
@@ -43,9 +52,12 @@ function AppRouter() {
 
       {/* Student */}
       <Routes>
+          <Route path="/student/info" element={<SchoolInfo />} />
+
           <Route element={<StudentLayout />}>
             <Route path="/student" element={<HomepageStudent />} />
             <Route path="/student/timetable-student" element={<TimeTableStudent />} />
+
           </Route>
         </Routes>
         <Routes>

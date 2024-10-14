@@ -29,22 +29,25 @@ const MainLayout = () => {
         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
           <SubMenu key="sub1" icon={<HomeOutlined />} title="Tuỳ chọn">
             <Menu.Item key="1-1">
-              <Link to="/student">Trang chủ</Link>
+              <Link to="/">Trang chủ</Link>
             </Menu.Item>
             <Menu.Item key="1-2">
-              <Link to="/student/info">Thông tin</Link>
+              <Link to="/info">Thông tin</Link>
             </Menu.Item>
             <Menu.Item key="1-3">
-              <Link to="/student/achievements">Danh hiệu</Link>
+              <Link to="/achievements">Danh hiệu</Link>
             </Menu.Item>
             <Menu.Item key="1-4">
-              <Link to="/student/event">Sự kiện</Link>
+              <Link to="/achievements">Giải thưởng</Link>
             </Menu.Item>
             <Menu.Item key="1-5">
-              <Link to="/student/activity">Hoạt động</Link>
+              <Link to="/event">Sự kiện</Link>
             </Menu.Item>
             <Menu.Item key="1-6">
-              <Link to="/student/blog">Blog</Link>
+              <Link to="/activity">Hoạt động</Link>
+            </Menu.Item>
+            <Menu.Item key="1-7">
+              <Link to="/blog">Blog</Link>
             </Menu.Item>
           </SubMenu>
 

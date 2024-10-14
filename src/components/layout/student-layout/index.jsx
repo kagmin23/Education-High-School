@@ -52,7 +52,7 @@ const StudentLayout = () => {
         </div>
         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
           <SubMenu key="sub1" icon={<HomeOutlined />} title="Tuỳ chọn">
-            <Menu.Item key="1-1">
+          <Menu.Item key="1-1">
               <Link to="/student">Trang chủ</Link>
             </Menu.Item>
             <Menu.Item key="1-2">
@@ -62,12 +62,15 @@ const StudentLayout = () => {
               <Link to="/student/achievements">Danh hiệu</Link>
             </Menu.Item>
             <Menu.Item key="1-4">
-              <Link to="/student/event">Sự kiện</Link>
+              <Link to="/student/achievements">Giải thưởng</Link>
             </Menu.Item>
             <Menu.Item key="1-5">
-              <Link to="/student/activity">Hoạt động</Link>
+              <Link to="/student/event">Sự kiện</Link>
             </Menu.Item>
             <Menu.Item key="1-6">
+              <Link to="/student/activity">Hoạt động</Link>
+            </Menu.Item>
+            <Menu.Item key="1-7">
               <Link to="/student/blog">Blog</Link>
             </Menu.Item>
           </SubMenu>
