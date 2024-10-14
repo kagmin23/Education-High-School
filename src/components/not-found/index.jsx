@@ -9,9 +9,9 @@ const NotFound = () => {
         <div className="mb-4 text-6xl text-gray-500">
           <ToolOutlined />
         </div>
-        
+
         <p className="mt-2 text-xl font-bold text-gray-600">Trang không tìm thấy</p>
-        
+
         <p className="mt-1 text-gray-500">Xin vui lòng kiểm tra lại đường dẫn hoặc quay lại trang chủ.</p>
         <h2 className="relative inline-block mt-10 font-bold text-gray-800 text-8xl"> {/* Thay đổi kích thước */}
           404

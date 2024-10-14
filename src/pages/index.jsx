@@ -1,3 +1,5 @@
+export { default as SchoolAchievement } from './achievement/index';
+export { default as SchoolActivity } from './activity/index';
 export { default as DashboardAdmin } from './admin/dashboard/index';
 export { default as RouterAdmin } from './admin/index';
 export { default as SchoolBlog } from './blog/index';

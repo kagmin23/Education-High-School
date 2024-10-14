@@ -38,10 +38,11 @@ const SchoolInfo = () => {
     }
 
     return (
-        <div className="flex flex-col items-center p-4">
+        <div className="flex flex-col items-center p-3 bg-gradient-to-r from-blue-200 to-blue-300">
             <Button
                 icon={<DoubleLeftOutlined />}
                 onClick={() => window.history.back()}
+                className="text-xs text-white bg-slate-500"
                 style={{
                     position: 'fixed',
                     top: '16px',
@@ -51,7 +52,6 @@ const SchoolInfo = () => {
             >
                 Back
             </Button>
-
             <Card className="w-full rounded-lg shadow-lg">
                 <Image
                     width="100%"

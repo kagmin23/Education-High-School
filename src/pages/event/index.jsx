@@ -17,10 +17,11 @@ const SchoolEvent = () => {
     };
 
     return (
-        <div className="container p-5 mx-auto">
+        <div className="h-screen p-3 mx-auto bg-gradient-to-r from-blue-200 to-blue-300 ">
             <Button
                 icon={<DoubleLeftOutlined />}
                 onClick={() => window.history.back()}
+                className="text-xs text-white bg-slate-500"
                 style={{
                     position: 'fixed',
                     top: '16px',
@@ -30,7 +31,7 @@ const SchoolEvent = () => {
             >
                 Back
             </Button>
-            <Card className="rounded-lg shadow-lg">
+            <Card className="rounded-lg shadow-lg bg-gradient-to-r from-gray-100 to-gray-300">
                 <Typography.Title level={3} className="mb-4 text-center">
                     School Events
                 </Typography.Title>

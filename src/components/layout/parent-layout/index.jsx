@@ -53,26 +53,23 @@ const ParentLayout = () => {
         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
           <SubMenu key="sub1" icon={<HomeOutlined />} title="Tuỳ chọn">
             <Menu.Item key="1-1">
-                <Link to="/parent">Trang chủ</Link>
-              </Menu.Item>
-              <Menu.Item key="1-2">
-                <Link to="/parent/info">Thông tin</Link>
-              </Menu.Item>
-              <Menu.Item key="1-3">
-                <Link to="/parent/achievements">Danh hiệu</Link>
-              </Menu.Item>
-              <Menu.Item key="1-4">
-                <Link to="/parent/achievements">Giải thưởng</Link>
-              </Menu.Item>
-              <Menu.Item key="1-5">
-                <Link to="/parent/event">Sự kiện</Link>
-              </Menu.Item>
-              <Menu.Item key="1-6">
-                <Link to="/parent/activity">Hoạt động</Link>
-              </Menu.Item>
-              <Menu.Item key="1-7">
-                <Link to="/parent/blog">Blog</Link>
-              </Menu.Item>
+              <Link to="/parent">Trang chủ</Link>
+            </Menu.Item>
+            <Menu.Item key="1-2">
+              <Link to="/parent/info">Thông tin</Link>
+            </Menu.Item>
+            <Menu.Item key="1-3">
+              <Link to="/parent/achievement">Thành tích</Link>
+            </Menu.Item>
+            <Menu.Item key="1-4">
+              <Link to="/parent/event">Sự kiện</Link>
+            </Menu.Item>
+            <Menu.Item key="1-5">
+              <Link to="/parent/activity">Hoạt động</Link>
+            </Menu.Item>
+            <Menu.Item key="1-6">
+              <Link to="/parent/blog">Blog</Link>
+            </Menu.Item>
           </SubMenu>
 
           <Menu.Item key="2" icon={<InsertRowAboveOutlined />}>

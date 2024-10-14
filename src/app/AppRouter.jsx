@@ -14,6 +14,8 @@ import {
   RoleSelectionPage,
   RouterAdmin,
   RouterTeacher,
+  SchoolAchievement,
+  SchoolActivity,
   SchoolBlog,
   SchoolEvent,
   SchoolInfo,
@@ -27,23 +29,25 @@ function AppRouter() {
 
       {/* Guest */}
       <Routes>
-      <Route path="/register" element={<StudentRegister />} />
-      <Route path="/select-role-login" element={<RoleSelectionPage />} />
-      <Route path="/login/teacher" element={<LoginTeacher />} />
-      <Route path="/login/student" element={<LoginStudent />} />
-      <Route path="/login/parent" element={<LoginParent />} />
-      <Route path="/login/admin" element={<LoginAdmin />} />
+        <Route path="/register" element={<StudentRegister />} />
+        <Route path="/select-role-login" element={<RoleSelectionPage />} />
+        <Route path="/login/teacher" element={<LoginTeacher />} />
+        <Route path="/login/student" element={<LoginStudent />} />
+        <Route path="/login/parent" element={<LoginParent />} />
+        <Route path="/login/admin" element={<LoginAdmin />} />
 
-      {/* Guest */}
-      <Route path="/info" element={<SchoolInfo />} />
-      <Route path="/blog" element={<SchoolBlog />} />
-      <Route path="/event" element={<SchoolEvent />} />
+        {/* Guest */}
+        <Route path="/info" element={<SchoolInfo />} />
+        <Route path="/blog" element={<SchoolBlog />} />
+        <Route path="/event" element={<SchoolEvent />} />
+        <Route path="/achievement" element={<SchoolAchievement />} />
+        <Route path="/activity" element={<SchoolActivity />} />
 
-      {/* Admin */}
-      <Route path="/admin/*" element={<RouterAdmin />} />
+        {/* Admin */}
+        <Route path="/admin/*" element={<RouterAdmin />} />
 
-      {/* Teacher */}
-      <Route path="/teacher/*" element={<RouterTeacher />} />
+        {/* Teacher */}
+        <Route path="/teacher/*" element={<RouterTeacher />} />
 
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomepageGuest />} />
@@ -52,24 +56,24 @@ function AppRouter() {
 
       {/* Student */}
       <Routes>
-          <Route path="/student/info" element={<SchoolInfo />} />
+        <Route path="/student/info" element={<SchoolInfo />} />
 
-          <Route element={<StudentLayout />}>
-            <Route path="/student" element={<HomepageStudent />} />
-            <Route path="/student/timetable-student" element={<TimeTableStudent />} />
+        <Route element={<StudentLayout />}>
+          <Route path="/student" element={<HomepageStudent />} />
+          <Route path="/student/timetable-student" element={<TimeTableStudent />} />
 
-          </Route>
-        </Routes>
-        <Routes>
-            <Route path="/student/do-test" element={<DoTest />} />
-        </Routes>
+        </Route>
+      </Routes>
+      <Routes>
+        <Route path="/student/do-test" element={<DoTest />} />
+      </Routes>
 
       {/* Parent */}
       <Routes>
-      <Route element={<ParentLayout />}>
-            <Route path="/parent" element={<HomepageParent />} />
-          </Route>
-        </Routes>
+        <Route element={<ParentLayout />}>
+          <Route path="/parent" element={<HomepageParent />} />
+        </Route>
+      </Routes>
 
     </Router>
   );

@@ -23,10 +23,10 @@ const Footer = () => {
         <div>
           <h2 className="text-lg font-bold">Quick Links</h2>
           <ul className="mt-2 space-y-2">
-            <li><a href="/" className="hover:text-blue-400">Trang chủ</a></li>
-            <li><a href="/courses" className="hover:text-blue-400">Giáo án</a></li>
-            <li><a href="/about" className="hover:text-blue-400">Blog</a></li>
-            <li><a href="/contact" className="hover:text-blue-400">Chất lượng</a></li>
+            <li><a href="#" className="hover:text-blue-400">Trang chủ</a></li>
+            <li><a href="#" className="hover:text-blue-400">Giáo án</a></li>
+            <li><a href="#" className="hover:text-blue-400">Blog</a></li>
+            <li><a href="#" className="hover:text-blue-400">Chất lượng</a></li>
           </ul>
         </div>
         

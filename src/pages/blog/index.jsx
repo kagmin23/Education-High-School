@@ -1,8 +1,9 @@
 import { DislikeOutlined, DoubleLeftOutlined, LikeOutlined } from '@ant-design/icons';
-import { Button, Card, Input, List, Typography } from 'antd';
+import { Button, Card, Input, Layout, List, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const { TextArea } = Input;
+const { Footer, Content } = Layout;
 
 const SchoolBlog = () => {
     const [comments, setComments] = useState([]);
@@ -118,92 +119,103 @@ const SchoolBlog = () => {
     const currentBlogLikes = likesData[selectedBlog.id] || { likes: 0, dislikes: 0, liked: false, disliked: false };
 
     return (
-        <div className="container p-5 mx-auto">
-            <Button
-                icon={<DoubleLeftOutlined />}
-                onClick={() => window.history.back()}
-                style={{
-                    position: 'fixed',
-                    top: '16px',
-                    left: '16px',
-                    zIndex: 1000,
-                }}
-            >
-                Back
-            </Button>
-            <Card
-                className="w-full rounded-lg shadow-lg"
-                cover={<img alt="blog_image" src={selectedBlog.image} />}
-                title={selectedBlog.title}
-                actions={[
-                    <div className="flex justify-end gap-2 mr-2">
-                        <Button
-                            key="like"
-                            icon={<LikeOutlined />}
-                            onClick={handleLike}
-                            type={currentBlogLikes.liked ? 'primary' : 'default'}
-                        >
-                            {currentBlogLikes.likes}
-                        </Button>
-                        <Button
-                            key="dislike"
-                            icon={<DislikeOutlined />}
-                            onClick={handleDislike}
-                            type={currentBlogLikes.disliked ? 'primary' : 'default'}
-                        >
-                            {currentBlogLikes.dislikes}
+        <Layout className="min-h-screen">
+            <Content className="flex-grow p-5 mx-auto bg-gradient-to-r from-gray-50 to-gray-100">
+                <div className="text-center">
+                    <Typography.Title>Blog THPT Bà Rịa - Vũng Tàu</Typography.Title>
+                </div>
+                <Button
+                    icon={<DoubleLeftOutlined />}
+                    onClick={() => window.history.back()}
+                    className="text-xs text-white bg-slate-500"
+                    style={{
+                        position: 'fixed',
+                        top: '16px',
+                        left: '16px',
+                        zIndex: 1000,
+                    }}
+                >
+                    Back
+                </Button>
+                <Card
+                    className="w-full rounded-lg shadow-lg"
+                    cover={<img alt="blog_image" src={selectedBlog.image} />}
+                    title={selectedBlog.title}
+                    actions={[
+                        <div className="flex justify-end gap-2 mr-2">
+                            <Button
+                                key="like"
+                                icon={<LikeOutlined />}
+                                onClick={handleLike}
+                                type={currentBlogLikes.liked ? 'primary' : 'default'}
+                            >
+                                {currentBlogLikes.likes}
+                            </Button>
+                            <Button
+                                key="dislike"
+                                icon={<DislikeOutlined />}
+                                onClick={handleDislike}
+                                type={currentBlogLikes.disliked ? 'primary' : 'default'}
+                            >
+                                {currentBlogLikes.dislikes}
+                            </Button>
+                        </div>
+                    ]}
+                >
+                    <Typography.Paragraph>{selectedBlog.content}</Typography.Paragraph>
+                </Card>
+
+                <div className="mt-5">
+                    <h3 className="mb-3">Bình luận</h3>
+                    <TextArea
+                        rows={4}
+                        value={commentInput}
+                        onChange={(e) => setCommentInput(e.target.value)}
+                        placeholder="Viết bình luận của bạn.."
+                    />
+                    <div className="text-center">
+                        <Button type="primary" onClick={handleCommentSubmit} className="mt-2 mb-5">
+                            Bình luận
                         </Button>
                     </div>
-                ]}
-            >
-                <Typography.Paragraph>{selectedBlog.content}</Typography.Paragraph>
-            </Card>
 
-            <div className="mt-5">
-                <h3>Bình luận</h3>
-                <TextArea
-                    rows={4}
-                    value={commentInput}
-                    onChange={(e) => setCommentInput(e.target.value)}
-                    placeholder="Add a comment"
-                />
-                <Button type="primary" onClick={handleCommentSubmit} className="mt-2">
-                    Bình luận
-                </Button>
-
-                <List
-                    bordered
-                    dataSource={comments}
-                    renderItem={(comment) => (
-                        <List.Item>
-                            {comment}
-                        </List.Item>
-                    )}
-                    className="mt-4"
-                />
-            </div>
-
-            <div className="mt-7">
-                <div className="flex flex-row justify-between">
-                    <h3 className="">Blogs Khác..</h3>
-                    <Input 
-                        placeholder="Tìm kiếm..." 
-                        value={searchTerm} 
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="mb-2 w-72"
+                    <List
+                        bordered
+                        dataSource={comments}
+                        renderItem={(comment) => (
+                            <List.Item>
+                                {comment}
+                            </List.Item>
+                        )}
+                        className="mt-4"
                     />
                 </div>
-                <List
-                    bordered
-                    dataSource={filteredBlogs}
-                    renderItem={(item) => (
-                        <List.Item onClick={() => handleBlogSelection(item)} style={{ cursor: 'pointer' }}>
-                            <a>{item.title}</a>
-                        </List.Item>
-                    )}
-                />
-            </div>
-        </div>
+
+                <div className="mt-14">
+                    <div className="flex flex-row justify-between">
+                        <h3 className="text-lg font-bold">Blogs Khác..</h3>
+                        <Input 
+                            placeholder="Tìm kiếm..." 
+                            value={searchTerm} 
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="mb-2 w-72"
+                        />
+                    </div>
+                    <List
+                        bordered
+                        dataSource={filteredBlogs}
+                        renderItem={(item) => (
+                            <List.Item onClick={() => handleBlogSelection(item)} style={{ cursor: 'pointer' }}>
+                                <a>{item.title}</a>
+                            </List.Item>
+                        )}
+                    />
+                </div>
+            </Content>
+            <Footer className="text-center text-white bg-blue-500">
+                High School ©2024 Created by KagMin
+            </Footer>
+        </Layout>
     );
 };
 
