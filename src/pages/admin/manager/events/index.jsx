@@ -71,10 +71,7 @@ const EventManagement = () => {
 
     return (
         <div className="container p-5 mx-auto">
-            <Card className="rounded-lg shadow-lg">
-                <Typography.Title level={3} className="mb-4 text-center">
-                    Quản lý Sự kiện
-                </Typography.Title>
+            <Card title="Quản lý Sự kiện" style={{ marginBottom: 20 }}>
                 <Form form={form} onFinish={addEvent} layout="vertical">
                     <Form.Item name="title" label="Tên sự kiện" rules={[{ required: true, message: 'Vui lòng nhập tên sự kiện!' }]}>
                         <Input placeholder="Nhập tên sự kiện" />
@@ -82,16 +79,18 @@ const EventManagement = () => {
                     <Form.Item name="description" label="Mô tả sự kiện" rules={[{ required: true, message: 'Vui lòng nhập mô tả sự kiện!' }]}>
                         <Input.TextArea placeholder="Nhập mô tả sự kiện" rows={3} />
                     </Form.Item>
-                    <Form.Item name="date" label="Ngày diễn ra" rules={[{ required: true, message: 'Vui lòng chọn ngày diễn ra!' }]}>
-                        <DatePicker style={{ width: '100%' }} />
-                    </Form.Item>
-                    <Form.Item name="status" label="Trạng thái sự kiện" rules={[{ required: true, message: 'Vui lòng chọn trạng thái sự kiện!' }]}>
-                        <Select placeholder="Chọn trạng thái">
-                            <Option value="Sắp tới">Sắp tới</Option>
-                            <Option value="Đang diễn ra">Đang diễn ra</Option>
-                            <Option value="Đã diễn ra">Đã diễn ra</Option>
-                        </Select>
-                    </Form.Item>
+                    <div className="flex justify-start gap-5">
+                        <Form.Item name="date" label="Ngày diễn ra" rules={[{ required: true, message: 'Vui lòng chọn ngày diễn ra!' }]}>
+                            <DatePicker style={{ width: '100%' }} />
+                        </Form.Item>
+                        <Form.Item name="status" label="Trạng thái sự kiện" rules={[{ required: true, message: 'Vui lòng chọn trạng thái sự kiện!' }]}>
+                            <Select placeholder="Chọn trạng thái">
+                                <Option value="Sắp tới">Sắp tới</Option>
+                                <Option value="Đang diễn ra">Đang diễn ra</Option>
+                                <Option value="Đã diễn ra">Đã diễn ra</Option>
+                            </Select>
+                        </Form.Item>
+                    </div>
                     <Form.Item label="Hình ảnh" rules={[{ required: true, message: 'Vui lòng tải lên hình ảnh!' }]}>
                         <Upload
                             listType="picture-card"
@@ -115,7 +114,11 @@ const EventManagement = () => {
                         <Button type="primary" htmlType="submit">Thêm Sự kiện</Button>
                     </Form.Item>
                 </Form>
-                <Typography.Title level={4} className="mt-5">Danh sách Sự kiện</Typography.Title>
+            </Card>
+            <Card className="rounded-lg shadow-lg">
+                <Typography.Title level={3} className="mb-4 text-center">
+                    Danh sách Sự kiện
+                </Typography.Title>
                 <List
                     bordered
                     dataSource={events}
@@ -123,7 +126,7 @@ const EventManagement = () => {
                         <List.Item
                             key={item.id}
                             actions={[
-                                <Button type="link" onClick={() => removeEvent(item.id)}>Xóa</Button>
+                                <Button type="link" className="text-red-500" onClick={() => removeEvent(item.id)}>Xóa</Button>
                             ]}
                         >
                             <List.Item.Meta

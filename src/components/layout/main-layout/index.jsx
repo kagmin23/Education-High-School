@@ -35,7 +35,7 @@ const MainLayout = () => {
               <Link to="/info">Thông tin</Link>
             </Menu.Item>
             <Menu.Item key="1-3">
-              <Link to="/achievement">Thành tích</Link>
+              <Link to="/achievements">Thành tích</Link>
             </Menu.Item>
             <Menu.Item key="1-4">
               <Link to="/event">Sự kiện</Link>

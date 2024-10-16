@@ -59,7 +59,7 @@ const ParentLayout = () => {
               <Link to="/parent/info">Thông tin</Link>
             </Menu.Item>
             <Menu.Item key="1-3">
-              <Link to="/parent/achievement">Thành tích</Link>
+              <Link to="/parent/achievements">Thành tích</Link>
             </Menu.Item>
             <Menu.Item key="1-4">
               <Link to="/parent/event">Sự kiện</Link>

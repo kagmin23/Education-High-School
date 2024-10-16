@@ -40,7 +40,7 @@ function AppRouter() {
         <Route path="/info" element={<SchoolInfo />} />
         <Route path="/blog" element={<SchoolBlog />} />
         <Route path="/event" element={<SchoolEvent />} />
-        <Route path="/achievement" element={<SchoolAchievement />} />
+        <Route path="/achievements" element={<SchoolAchievement />} />
         <Route path="/activity" element={<SchoolActivity />} />
 
         {/* Admin */}
@@ -57,6 +57,10 @@ function AppRouter() {
       {/* Student */}
       <Routes>
         <Route path="/student/info" element={<SchoolInfo />} />
+        <Route path="/student/blog" element={<SchoolBlog />} />
+        <Route path="/student/event" element={<SchoolEvent />} />
+        <Route path="/student/achievements" element={<SchoolAchievement />} />
+        <Route path="/student/activity" element={<SchoolActivity />} />
 
         <Route element={<StudentLayout />}>
           <Route path="/student" element={<HomepageStudent />} />

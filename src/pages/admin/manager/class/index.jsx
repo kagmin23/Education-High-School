@@ -1,3 +1,4 @@
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Select, Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -105,8 +106,8 @@ const ClassManagement = () => {
 
   return (
     <div className="container p-6 mx-auto">
-      <h1 className="mb-6 text-3xl font-bold text-center">Quản lý Lớp Học</h1>
-      <Button type="primary" onClick={handleAdd} style={{ marginBottom: 16 }}>
+      <h1 className="mb-6 text-xl font-bold text-center">Quản lý Lớp Học</h1>
+      <Button icon={<PlusCircleOutlined />} type="primary" onClick={handleAdd} style={{ marginBottom: 16 }}>
         Thêm Lớp
       </Button>
       <Table columns={columns} dataSource={classes} rowKey="key" />

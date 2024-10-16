@@ -1,54 +1,28 @@
 import { EnvironmentOutlined, FileTextOutlined, HeartOutlined, TeamOutlined, TrophyOutlined } from '@ant-design/icons';
 import { Card, Col, Image, Row, Tag, Typography } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const iconOptions = {
+    TrophyOutlined: <TrophyOutlined />,
+    FileTextOutlined: <FileTextOutlined />,
+    TeamOutlined: <TeamOutlined />,
+    EnvironmentOutlined: <EnvironmentOutlined />,
+    HeartOutlined: <HeartOutlined />,
+};
 
 const SchoolAward = () => {
-    // Dữ liệu cho các giải thưởng
-    const awards = [
-        {
-            id: 1,
-            name: "Giải nhất cuộc thi Toán",
-            description: "Giải thưởng dành cho người đạt giải nhất ở cuộc thi Toán cấp tỉnh và quốc gia.",
-            icon: <TrophyOutlined />,
-            tags: ["Học sinh giỏi", "Toán học"],
-            image: "https://example.com/image1.jpg" // Đường dẫn hình ảnh minh họa
-        },
-        {
-            id: 2,
-            name: "Giải nhì cuộc thi Văn",
-            description: "Giải thưởng dành cho người đạt giải nhì trong cuộc thi Văn học.",
-            icon: <FileTextOutlined />,
-            tags: ["Học sinh giỏi", "Văn học"],
-            image: "https://example.com/image2.jpg" // Đường dẫn hình ảnh minh họa
-        },
-        {
-            id: 3,
-            name: "Giải thể thao bóng đá",
-            description: "Giải thưởng dành cho đội bóng đá của trường đạt giải nhất trong giải đấu liên trường.",
-            icon: <TeamOutlined />,
-            tags: ["Thể thao", "Bóng đá"],
-            image: "https://example.com/image3.jpg" // Đường dẫn hình ảnh minh họa
-        },
-        {
-            id: 4,
-            name: "Giải nghiên cứu khoa học",
-            description: "Giải thưởng dành cho dự án nghiên cứu khoa học xuất sắc nhất.",
-            icon: <EnvironmentOutlined />,
-            tags: ["Nghiên cứu", "Sáng tạo"],
-            image: "https://example.com/image4.jpg" // Đường dẫn hình ảnh minh họa
-        },
-        {
-            id: 5,
-            name: "Giải thưởng hoạt động xã hội",
-            description: "Giải thưởng dành cho các hoạt động tình nguyện và bảo vệ môi trường.",
-            icon: <HeartOutlined />,
-            tags: ["Hoạt động xã hội", "Tình nguyện"],
-            image: "https://example.com/image5.jpg" // Đường dẫn hình ảnh minh họa
-        },
-    ];
+    const [awards, setAwards] = useState([]);
+
+    // Load data from localStorage when the component mounts
+    useEffect(() => {
+        const storedData = localStorage.getItem("schoolAwardsData");
+        if (storedData) {
+            setAwards(JSON.parse(storedData));
+        }
+    }, []);
 
     return (
-        <div className="min-h-screen p-5 mx-auto ">
+        <div className="container w-screen min-h-screen">
             <Typography.Title level={5} className="mb-6 text-center">
                 Thành tích và Giải thưởng nổi bật
             </Typography.Title>
@@ -59,18 +33,23 @@ const SchoolAward = () => {
                             hoverable
                             cover={
                                 <Image
+                                    className="w-24 h-24"
                                     alt={item.name}
-                                    src={item.image}
+                                    src={item.imageUrl} // Use imageUrl field
                                     style={{ height: '200px', objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
                                 />
                             }
-                            style={{ marginBottom: '16px', borderRadius: '8px', overflow: 'hidden' }} // Ensure border radius is applied
+                            style={{ marginBottom: '16px', borderRadius: '8px', overflow: 'hidden' }}
                         >
                             <Card.Meta
                                 title={
                                     <div className="flex items-center">
-                                        <span className="text-xl">{item.icon}</span>
-                                        <span className="ml-2">{item.name}</span>
+                                        <span className="text-xl">
+                                            {iconOptions[item.iconType]}
+                                        </span>
+                                        <span className="ml-2" style={{ flex: 1, whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                                            {item.title}
+                                        </span>
                                     </div>
                                 }
                                 description={
@@ -78,7 +57,7 @@ const SchoolAward = () => {
                                         <p>{item.description}</p>
                                         <div>
                                             {item.tags.map((tag) => (
-                                                <Tag key={tag} color="blue" style={{ margin: '4px' }}>
+                                                <Tag key={tag} color="green" style={{ margin: '4px' }}>
                                                     {tag}
                                                 </Tag>
                                             ))}

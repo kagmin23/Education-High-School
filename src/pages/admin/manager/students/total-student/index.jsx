@@ -135,7 +135,7 @@ const StudentTotal = () => {
   return (
     <div className="p-4 bg-white rounded-lg shadow-lg">
       <div className="flex flex-col justify-between mb-4">
-        <h2 className="mb-5 text-2xl font-bold">Quản lý học sinh</h2>
+        <h2 className="mb-3 text-base font-bold">Danh sách học sinh</h2>
         <div className="flex flex-row items-center justify-between">
             <p>Tổng số học sinh: <span className="font-bold">{students.length}</span></p>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal()}>

@@ -1,4 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Select, Table, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -137,8 +137,8 @@ const TeacherManagement = () => {
 
   return (
     <div className="container p-6 mx-auto">
-      <h1 className="mb-6 text-3xl font-bold text-center">Quản lý Giáo Viên</h1>
-      <Button type="primary" onClick={handleAdd} style={{ marginBottom: 16 }}>
+      <h1 className="mb-6 text-xl font-bold text-center">Quản lý Giáo Viên</h1>
+      <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAdd} style={{ marginBottom: 16 }}>
         Thêm Giáo Viên
       </Button>
       <Table columns={columns} dataSource={teachers} rowKey="key" />
