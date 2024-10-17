@@ -36,13 +36,12 @@ const SidebarTeacher = () => {
         </Menu.Item>
 
         {/* Nút Đăng xuất */}
-            <Button 
-            type="link" 
-            icon={<LogoutOutlined />} 
-            onClick={handleLogout} 
-            className="w-full mt-5 text-red-500" 
+        <Button
+          type="link"
+          onClick={handleLogout}
+          className="w-full mt-5 text-red-500"
         >
-            Đăng xuất
+          Đăng xuất <LogoutOutlined />
         </Button>
       </Menu>
     </div>

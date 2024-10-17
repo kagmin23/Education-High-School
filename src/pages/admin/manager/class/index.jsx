@@ -105,7 +105,7 @@ const ClassManagement = () => {
   ];
 
   return (
-    <div className="container p-6 mx-auto">
+    <div className="container mx-auto">
       <h1 className="mb-6 text-xl font-bold text-center">Quản lý Lớp Học</h1>
       <Button icon={<PlusCircleOutlined />} type="primary" onClick={handleAdd} style={{ marginBottom: 16 }}>
         Thêm Lớp

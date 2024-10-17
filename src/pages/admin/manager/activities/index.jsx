@@ -71,7 +71,7 @@ const ActivitiesManagement = () => {
     };
 
     return (
-        <div className="container p-5 mx-auto">
+        <div className="container mx-auto">
             <Card title="Quản lý Hoạt động" style={{ marginBottom: 20 }}>
                 <Form
                     form={form}

@@ -4,15 +4,16 @@ import {
     DashboardOutlined,
     GiftOutlined,
     IdcardOutlined,
+    LogoutOutlined,
     MergeOutlined,
     TeamOutlined,
     TrophyOutlined,
     UserOutlined
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-import { useState } from 'react';
+import { Button, Layout, Menu } from 'antd';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../../assets/HSchool_Logo_Admin.png'; // Đảm bảo rằng đường dẫn đến file logo là chính xác
+import logo from '../../../assets/HSchool_Logo_Admin.png';
 
 const { Sider } = Layout;
 
@@ -20,10 +21,13 @@ const SidebarAdmin = () => {
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
 
-    // Hàm điều hướng khi click vào các mục trong menu
     const handleMenuClick = (e) => {
         navigate(e.key);
     };
+
+    const handleLogout = () => {
+        navigate("/");
+    }
 
     return (
         <Sider
@@ -35,15 +39,13 @@ const SidebarAdmin = () => {
             breakpoint="lg"
             collapsedWidth="80"
         >
-            {/* Hiển thị logo */}
             <div className="flex items-center justify-center my-4">
                 <img
                     src={logo}
                     alt="Logo"
-                    className={`transition-all duration-300 ${collapsed ? 'w-12' : 'w-20'}`} // Điều chỉnh kích thước logo dựa trên trạng thái collapsed
+                    className={`transition-all duration-300 ${collapsed ? 'w-12' : 'w-20'}`}
                 />
             </div>
-            {/* Chỉ hiện chữ Admin Panel khi sidebar không bị thu gọn */}
             {!collapsed && (
                 <div className="my-6 text-center text-white">
                     <h1 className="pb-4 text-2xl font-bold">Admin Panel</h1>
@@ -90,6 +92,16 @@ const SidebarAdmin = () => {
                     Quản lý Blog
                 </Menu.Item>
             </Menu>
+            <div className="mt-5 text-center">
+                <Button 
+                    type="link" 
+                    className="text-red-500" 
+                    onClick={handleLogout}
+                    icon={<LogoutOutlined />}
+                >
+                    {!collapsed && "Đăng xuất"}
+                </Button>
+            </div>
         </Sider>
     );
 };

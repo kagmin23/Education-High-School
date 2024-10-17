@@ -55,26 +55,26 @@ const TimetableManagement = () => {
       title: 'Thời gian',
       dataIndex: 'time',
       key: 'time',
-      width: '70px',
+      width: '30px',
       align: 'center',
     },
     {
       title: 'Tiết',
       dataIndex: 'time_details',
       key: 'time_details',
-      width: '70px',
+      width: '30px',
       align: 'center',
     },
     {
       title: '',
       dataIndex: 'empty',
       key: 'empty',
-      width: '30px',
+      width: '20px',
     },
     ...['THỨ 2', 'THỨ 3', 'THỨ 4', 'THỨ 5', 'THỨ 6', 'THỨ 7'].map(day => ({
       title: day.charAt(0).toUpperCase() + day.slice(1),
       dataIndex: day,
-      width: '90px',
+      width: '50px',
       align: 'center',
       render: (text, record) => {
         if (record.noCRUD) {
@@ -188,6 +188,7 @@ const TimetableManagement = () => {
 
   return (
     <div className="overflow-auto text-end">
+      <h1 className="mb-5 text-xl font-bold text-center text-gray-800">Quản lý Thời khoá biểu</h1>
       {/* Nút Xoá tất cả */}
       <div className="mb-4">
         <Button

@@ -81,7 +81,7 @@ const BlogManagement = () => {
     };
 
     return (
-        <div className="container p-5 mx-auto">
+        <div className="container mx-auto">
             <Card title="Quản lý Blog" style={{ marginBottom: 20 }}>
                 <Form form={form} layout="vertical" onFinish={onFinish}>
                     <Form.Item
@@ -89,14 +89,14 @@ const BlogManagement = () => {
                         label="Tiêu đề"
                         rules={[{ required: true, message: 'Vui lòng nhập tiêu đề!' }]}
                     >
-                        <Input />
+                        <Input placeholder="Nhập tiêu đề" />
                     </Form.Item>
                     <Form.Item
                         name="content"
                         label="Nội dung"
                         rules={[{ required: true, message: 'Vui lòng nhập nội dung!' }]}
                     >
-                        <Input.TextArea rows={4} />
+                        <Input.TextArea rows={4} placeholder="Nhập nội dung" />
                     </Form.Item>
                     <Form.Item label="Hình ảnh">
                         <Upload
@@ -136,7 +136,7 @@ const BlogManagement = () => {
                             title={blog.title}
                             description={blog.content}
                         />
-                        {blog.image && <img src={blog.image} alt="Blog" style={{ width: '100px', marginTop: '10px' }} />}
+                        <div className="ml-4">{blog.image && <img src={blog.image} alt="Blog" style={{ width: '100px', marginTop: '10px' }} />}</div>
                     </List.Item>
                 )}
             />

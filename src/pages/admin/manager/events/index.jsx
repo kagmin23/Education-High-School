@@ -70,7 +70,7 @@ const EventManagement = () => {
     };
 
     return (
-        <div className="container p-5 mx-auto">
+        <div className="container mx-auto">
             <Card title="Quản lý Sự kiện" style={{ marginBottom: 20 }}>
                 <Form form={form} onFinish={addEvent} layout="vertical">
                     <Form.Item name="title" label="Tên sự kiện" rules={[{ required: true, message: 'Vui lòng nhập tên sự kiện!' }]}>

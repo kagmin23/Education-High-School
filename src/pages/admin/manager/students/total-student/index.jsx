@@ -143,7 +143,7 @@ const StudentTotal = () => {
             </Button>
         </div>
       </div>
-      <Table columns={columns} dataSource={students} rowKey="key" />
+      <Table columns={columns} dataSource={students} className="custom-table" rowKey="key" />
 
       {/* Modal for adding/editing student */}
       <Modal

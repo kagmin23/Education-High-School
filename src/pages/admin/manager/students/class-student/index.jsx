@@ -105,7 +105,7 @@ const StudentClass = () => {
       </div>
 
       {/* Bảng danh sách học sinh */}
-      <Table columns={columns} dataSource={filteredStudents} rowKey="key" />
+      <Table columns={columns} dataSource={filteredStudents} className="custom-table" rowKey="key" />
     </div>
   );
 };
