@@ -9,8 +9,8 @@ const LoginStudent = () => {
 
   // Dữ liệu cứng cho học sinh
   const accountTestStudent = {
-    username: 'hocsinh123',
-    password: 'matkhau123',
+    username: 'hocsinh',
+    password: '123',
   };
 
   // Xử lý khi form đăng nhập được submit

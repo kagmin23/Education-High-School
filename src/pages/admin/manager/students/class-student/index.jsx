@@ -69,7 +69,7 @@ const StudentClass = () => {
   ];
 
   return (
-    <div>
+    <div className="p-4 bg-white">
       <h3>Danh sách học sinh theo lớp</h3>
 
       {/* Bộ lọc lớp */}

@@ -11,8 +11,8 @@ const LoginAdmin = () => {
 
   // Dữ liệu cứng cho giáo viên
   const accountTestAdmin = {
-    username: 'admin123',
-    password: 'matkhau123',
+    username: 'admin',
+    password: '123',
   };
 
   // Xử lý khi form đăng nhập được submit

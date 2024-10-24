@@ -29,7 +29,7 @@ const DashboardAdmin = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <h1 className="mb-5 text-xl font-bold text-center text-gray-800">Dashboard Tổng quan</h1>
+      <h1 className="mb-5 text-xl text-center text-gray-800">Dashboard Tổng quan</h1>
 
       {/* Tổng quan về số lượng */}
       <Row gutter={16}>
@@ -80,7 +80,7 @@ const DashboardAdmin = () => {
 
       {/* Sơ đồ đánh giá */}
       <div className="p-6 mt-8 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-4 text-xl font-semibold">Sơ đồ đánh giá học sinh</h2>
+        <h2 className="text-base font-semibold ">Sơ đồ đánh giá học sinh</h2>
         <Pie {...config} />
       </div>
 

@@ -7,8 +7,8 @@ const { TabPane } = Tabs;
 
 const StudentManagement = () => {
   return (
-    <div className="container mx-auto">
-      <h1 className="mb-6 text-xl font-bold text-center">Quản lý Học Sinh</h1>
+    <div className="p-5 mx-auto bg-white">
+      <h1 className="mb-6 text-xl text-center">Quản lý Học Sinh</h1>
       <Tabs defaultActiveKey="1" centered>
         <TabPane tab="Danh sách Học sinh" key="1">
           <StudentTotal />

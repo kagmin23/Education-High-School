@@ -12,11 +12,7 @@ const LoginTeacher = () => {
   const accountsTestTeacher = [
     {
       username: 'giaovien1',
-      password: 'matkhau123',
-    },
-    {
-      username: 'giaovien2',
-      password: 'matkhau123',
+      password: '123',
     },
   ];
 

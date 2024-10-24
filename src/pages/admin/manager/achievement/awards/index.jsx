@@ -61,12 +61,12 @@ const AwardsManagement = () => {
 
     return (
         <div className="min-h-screen p-5">
-                        <Typography.Title level={5} className="mb-4 text-center text-gray-800">
-                        Quản lý Thành tích và Giải thưởng
+            <Typography.Title level={4} className="mb-4 text-center text-gray-800" style={{ fontWeight: 'normal' }}>
+                Quản lý Thành tích và Giải thưởng
             </Typography.Title>
             {/* Form to Add Award */}
             <Form form={form} layout="vertical" onFinish={handleAddAward} className="mb-5">
-            <Typography.Title level={5} className="mb-4">Thêm Giải thưởng mới</Typography.Title>
+                <Typography.Title level={5} className="mb-4">Thêm Giải thưởng mới</Typography.Title>
                 <Form.Item name="title" label="Tên Giải thưởng" rules={[{ required: true, message: "Vui lòng nhập tên Giải thưởng" }]}>
                     <Input placeholder="Nhập tên Giải thưởng" className="rounded-md" />
                 </Form.Item>

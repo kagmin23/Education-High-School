@@ -1,9 +1,9 @@
 import {
-    ArrowLeftOutlined,
-    LockOutlined,
-    MailOutlined,
-    PhoneOutlined,
-    UserOutlined,
+  ArrowLeftOutlined,
+  LockOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { useEffect, useState } from 'react';

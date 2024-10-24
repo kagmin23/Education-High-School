@@ -9,8 +9,8 @@ const LoginParent = () => {
 
   // Dữ liệu cứng cho phụ huynh
   const accountTestParent = {
-    username: 'phuhuynh123',
-    password: 'matkhau123',
+    username: 'phuhuynh',
+    password: '123',
   };
 
   // Hàm mở thông báo với mô tả

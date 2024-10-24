@@ -1,9 +1,11 @@
 import {
+    BookOutlined,
     CalendarOutlined,
     ClusterOutlined,
     DashboardOutlined,
     GiftOutlined,
     IdcardOutlined,
+    KeyOutlined,
     LogoutOutlined,
     MergeOutlined,
     TeamOutlined,
@@ -35,20 +37,20 @@ const SidebarAdmin = () => {
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
             width={250}
-            className="min-h-screen bg-gray-800"
+            className="min-h-screen bg-gray-900"
             breakpoint="lg"
             collapsedWidth="80"
         >
-            <div className="flex items-center justify-center my-4">
+            <div className="flex items-center justify-center mt-5 mb-2">
                 <img
                     src={logo}
                     alt="Logo"
-                    className={`transition-all duration-300 ${collapsed ? 'w-12' : 'w-20'}`}
+                    className={`transition-all duration-300 ${collapsed ? 'w-12' : 'w-16'}`}
                 />
             </div>
             {!collapsed && (
-                <div className="my-6 text-center text-white">
-                    <h1 className="pb-4 text-2xl font-bold">Admin Panel</h1>
+                <div className="text-center text-white ">
+                    <h1 className="mb-4 text-sm font-bold ">ADMIN<span className="text-xs text-gray-400">Panel</span></h1>
                 </div>
             )}
             <Menu
@@ -63,6 +65,9 @@ const SidebarAdmin = () => {
                 </Menu.Item>
                 <Menu.Item key="/admin/manager/infos" icon={<GiftOutlined />}>
                     Thông tin
+                </Menu.Item>
+                <Menu.Item key="/admin/manager/accounts" icon={<KeyOutlined />}>
+                    Tài khoản
                 </Menu.Item>
                 <Menu.Item key="/admin/manager/class" icon={<ClusterOutlined />}>
                     Quản lý Lớp
@@ -82,14 +87,17 @@ const SidebarAdmin = () => {
                 <Menu.Item key="/admin/manager/events" icon={<CalendarOutlined />}>
                     Quản lý Sự kiện
                 </Menu.Item>
+                <Menu.Item key="/admin/manager/blogs" icon={<IdcardOutlined />}>
+                    Quản lý Blog
+                </Menu.Item>
                 <Menu.Item key="/admin/manager/achievements" icon={<TrophyOutlined />}>
                     Quản lý Danh hiệu
                 </Menu.Item>
                 <Menu.Item key="/admin/manager/awards" icon={<GiftOutlined />}>
                     Quản lý Giải thưởng
                 </Menu.Item>
-                <Menu.Item key="/admin/manager/blogs" icon={<IdcardOutlined />}>
-                    Quản lý Blog
+                <Menu.Item key="/admin/manager/certificates" icon={<BookOutlined />}>
+                    Chứng nhận
                 </Menu.Item>
             </Menu>
             <div className="mt-5 text-center">

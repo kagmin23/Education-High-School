@@ -1,6 +1,7 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Select, Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
+import '../main.css';
 
 const { Option } = Select;
 
@@ -72,6 +73,7 @@ const ClassManagement = () => {
       dataIndex: 'teacher',
       render: (text, record) => (
         <Select
+          className="w-36"
           defaultValue={text}
           onChange={(value) => {
             const updatedClasses = classes.map((classItem) =>
@@ -90,6 +92,10 @@ const ClassManagement = () => {
       ),
     },
     {
+      title: 'Hình ảnh giáo viên',
+      dataIndex: 'teacherImg',
+    },
+    {
       title: 'Hành động',
       render: (text, record) => (
         <>
@@ -105,12 +111,12 @@ const ClassManagement = () => {
   ];
 
   return (
-    <div className="container mx-auto">
-      <h1 className="mb-6 text-xl font-bold text-center">Quản lý Lớp Học</h1>
+    <div className="container p-5 mx-auto bg-white rounded-lg shadow-lg">
+      <h1 className="mb-6 text-xl text-center">Quản lý Lớp Học</h1>
       <Button icon={<PlusCircleOutlined />} type="primary" onClick={handleAdd} style={{ marginBottom: 16 }}>
         Thêm Lớp
       </Button>
-      <Table columns={columns} dataSource={classes} rowKey="key" />
+      <Table columns={columns} className="custom-table" dataSource={classes} rowKey="key" />
 
       <Modal
         title={editingClass ? 'Chỉnh sửa Lớp' : 'Thêm Lớp'}

@@ -137,8 +137,8 @@ const TeacherManagement = () => {
   ];
 
   return (
-    <div className="container mx-auto custom-table">
-      <h1 className="mb-6 text-xl font-bold text-center">Quản lý Giáo Viên</h1>
+    <div className="container p-5 mx-auto bg-white custom-table">
+      <h1 className="mb-6 text-xl text-center">Quản lý Giáo Viên</h1>
       <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAdd} style={{ marginBottom: 16 }}>
         Thêm Giáo Viên
       </Button>

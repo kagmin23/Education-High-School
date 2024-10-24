@@ -47,7 +47,7 @@ const AchievementsManagement = () => {
 
     return (
         <div className="min-h-screen p-5 mx-auto">
-            <Typography.Title level={5} className="mb-4 text-center text-gray-800">
+            <Typography.Title level={4} className="mb-4 text-center text-gray-800" style={{ fontWeight: 'normal' }}>
                 Quản lý Thành tích và Danh hiệu
             </Typography.Title>
 
