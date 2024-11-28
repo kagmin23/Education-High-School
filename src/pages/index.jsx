@@ -16,7 +16,7 @@ export { default as LoginParent } from './login/user-login/parent-login/index';
 export { default as LoginStudent } from './login/user-login/student-login/index';
 export { default as StudentRegister } from './register/user-register/index';
 export { default as DoTest } from './student/do-test/index';
+export { default as ProfileStudent } from './student/profile/index';
 export { default as TimeTableStudent } from './student/timetable/index';
 export { default as RouterTeacher } from './teacher/index';
 export { default as TestExam } from './teacher/test-exam/index';
-

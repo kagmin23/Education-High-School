@@ -1,6 +1,6 @@
 import { HomeOutlined, InsertRowAboveOutlined, LineChartOutlined, LogoutOutlined, ProfileOutlined, SettingOutlined, SignatureOutlined, SnippetsOutlined } from '@ant-design/icons';
 import { Avatar, Dropdown, Layout, Menu } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Footer from '../../../pages/footer';
 
@@ -9,7 +9,18 @@ const { SubMenu } = Menu;
 
 const StudentLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userClass, setUserClass] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Lấy dữ liệu người dùng từ localStorage
+    const userData = localStorage.getItem('userAccountsData');
+    if (userData) {
+      setUserName(userData.fullName || ''); // Đảm bảo tên người dùng được lấy đúng
+      setUserClass(userData.classId || ''); // Đảm bảo lớp được lấy đúng
+    }
+  }, []);
 
   const handleCollapse = (coll) => {
     setCollapsed(coll);
@@ -20,7 +31,7 @@ const StudentLayout = () => {
     navigate('/'); // Chuyển hướng đến trang đăng nhập
   };
 
-  // Dropdown menu items
+  // Menu dropdown cho người dùng
   const menu = (
     <Menu>
       <Menu.Item key="profile" icon={<ProfileOutlined />}>
@@ -35,19 +46,15 @@ const StudentLayout = () => {
     </Menu>
   );
 
-  // Sample user data, replace with actual data
-  const userName = "Nguyễn Văn A";
-  const userClass = "Lớp 10A1";
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* Sidebar */}
       <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse}>
         <div className="text-center">
           <img
-            src="https://st2.depositphotos.com/4398873/9234/v/450/depositphotos_92345772-stock-illustration-education-logo-concept.jpg" // Update the path to your logo image
+            src="https://st2.depositphotos.com/4398873/9234/v/450/depositphotos_92345772-stock-illustration-education-logo-concept.jpg" // Cập nhật đường dẫn đến logo
             alt="Logo"
-            style={{ width: '100%', height: '100%', maxHeight: '170px' }} // Adjust the styles as needed
+            style={{ width: '100%', height: '100%', maxHeight: '170px' }} // Điều chỉnh các kiểu cần thiết
           />
         </div>
         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
@@ -95,20 +102,19 @@ const StudentLayout = () => {
             <Link to="/student/do-test">Kiểm tra trắc nghiệm</Link>
           </Menu.Item>
         </Menu>
-
       </Sider>
 
-      {/* Main Content Area */}
+      {/* Khu vực Nội dung chính */}
       <Layout>
         <Header className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-cyan-500">
-          {/* Centered Title */}
+          {/* Tiêu đề giữa */}
           <div className="flex-grow text-center">
             <h1 className="text-2xl font-bold tracking-wider text-transparent uppercase bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 animate-pulse drop-shadow-lg">
               Cổng thông tin Giáo dục Trung học
             </h1>
           </div>
 
-          {/* Avatar Section with Dropdown */}
+          {/* Phần Avatar với Dropdown */}
           <Dropdown overlay={menu} trigger={['hover']}>
             <div className="flex flex-row items-center gap-3 cursor-pointer">
               <Avatar
@@ -117,14 +123,14 @@ const StudentLayout = () => {
                 alt="User Avatar"
               />
               <div className="flex flex-col">
-                <div className="text-sm text-white">{userName}</div>
-                <div className="text-xs text-white underline">{userClass}</div>
+                <div className="text-sm text-white">{userName || 'Người dùng'}</div> {/* Hiển thị tên người dùng */}
+                <div className="text-xs text-white underline">{userClass || 'Lớp'}</div> {/* Hiển thị lớp */}
               </div>
             </div>
           </Dropdown>
         </Header>
 
-        {/* Content and Footer */}
+        {/* Nội dung và Footer */}
         <div className="flex flex-col min-h-screen">
           <Content className="flex-grow p-1 m-1 rounded-lg shadow-md bg-blue-50">
             <Outlet />

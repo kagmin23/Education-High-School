@@ -1,5 +1,6 @@
 import { Tabs } from 'antd';
 import React from 'react';
+import AdminAccount from './admin';
 import TeacherAccount from './teacher';
 import UserAccount from './user';
 
@@ -15,6 +16,9 @@ const AccountsManagement = () => {
         </TabPane>
         <TabPane tab="Giáo viên" key="2">
           <TeacherAccount />
+        </TabPane>
+        <TabPane tab="ADMIN" key="3">
+          <AdminAccount />
         </TabPane>
       </Tabs>
     </div>

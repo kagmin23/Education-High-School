@@ -7,12 +7,6 @@ const LoginStudent = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Dữ liệu cứng cho học sinh
-  const accountTestStudent = {
-    username: 'hocsinh',
-    password: '123',
-  };
-
   // Xử lý khi form đăng nhập được submit
   const onFinish = (values) => {
     setLoading(true);
@@ -21,11 +15,17 @@ const LoginStudent = () => {
       setLoading(false);
       const { username, password } = values;
 
-      // Kiểm tra thông tin đăng nhập với dữ liệu cứng
-      if (username === accountTestStudent.username && password === accountTestStudent.password) {
+      // Lấy dữ liệu từ localStorage
+      const userAccounts = JSON.parse(localStorage.getItem('userAccountsData')) || [];
+      const foundAccount = userAccounts.find(account => account.username === username && account.password === password);
+
+      if (foundAccount) {
+        // Lưu thông tin người dùng đã đăng nhập vào localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify(foundAccount));
+
         notification.success({
           message: 'Đăng nhập thành công!',
-          description: 'Bạn đã đăng nhập thành công.',
+          description: 'Bạn đã đăng nhập thành công vào hệ thống Trường THPT với tư cách học sinh của trường.',
         });
         // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
         navigate('/student');

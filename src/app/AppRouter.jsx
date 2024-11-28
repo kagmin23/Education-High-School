@@ -11,6 +11,7 @@ import {
   LoginParent,
   LoginStudent,
   LoginTeacher,
+  ProfileStudent,
   RoleSelectionPage,
   RouterAdmin,
   RouterTeacher,
@@ -61,11 +62,11 @@ function AppRouter() {
         <Route path="/student/event" element={<SchoolEvent />} />
         <Route path="/student/achievements" element={<SchoolAchievement />} />
         <Route path="/student/activity" element={<SchoolActivity />} />
+        <Route path="/student/*" element={<ProfileStudent />} />
 
         <Route element={<StudentLayout />}>
           <Route path="/student" element={<HomepageStudent />} />
           <Route path="/student/timetable-student" element={<TimeTableStudent />} />
-
         </Route>
       </Routes>
       <Routes>

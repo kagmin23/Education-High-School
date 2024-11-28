@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, LockOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,13 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginTeacher = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [accountsTestTeacher, setAccountsTestTeacher] = useState([]);
 
-  const accountsTestTeacher = [
-    {
-      username: 'giaovien1',
-      password: '123',
-    },
-  ];
+  // Load teacher accounts from localStorage on component mount
+  useEffect(() => {
+    const storedAccounts = JSON.parse(localStorage.getItem('teacherAccountsData')) || [];
+    setAccountsTestTeacher(storedAccounts);
+  }, []);
 
   const onFinish = (values) => {
     setLoading(true);
@@ -27,7 +27,10 @@ const LoginTeacher = () => {
       );
 
       if (accountFound) {
-        notification.success('Đăng nhập thành công!');
+        notification.success({
+          message: 'Đăng nhập thành công!',
+          description: 'Bạn đã đăng nhập thành công vào trang Quản lý dành cho Giáo viên.',
+        });
         navigate('/teacher');
       } else {
         toast.error('Tên đăng nhập hoặc mật khẩu không đúng!');

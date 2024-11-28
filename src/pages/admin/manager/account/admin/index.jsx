@@ -1,10 +1,11 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Select, Table, Upload } from 'antd';
 import React, { useEffect, useState } from 'react';
+import subjects from '../../../../../models/typesSubAdd';
 import '../../main.css';
 
-const UserAccount = () => {
-    const [userAccounts, setUserAccounts] = useState([]);
+const AdminAccount = () => {
+    const [teacherAccounts, setTeacherAccounts] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDeleteConfirmModalVisible, setIsDeleteConfirmModalVisible] = useState(false);
     const [isStatusConfirmModalVisible, setIsStatusConfirmModalVisible] = useState(false);
@@ -13,119 +14,47 @@ const UserAccount = () => {
     const [selectedAccount, setSelectedAccount] = useState(null);
     const [form] = Form.useForm();
 
-    const addDefaultFields = (account) => ({
-        ...account,
-        timestamp: account.timestamp || Date.now(),
-        status: account.status || 'Hoạt động',
-        created_at: account.created_at || new Date().toISOString()
-    });
-
     useEffect(() => {
-        const loadAndSortAccounts = () => {
-            try {
-                const storedData = JSON.parse(localStorage.getItem('userAccountsData')) || [];
-
-                // Thêm trường mặc định cho mỗi tài khoản
-                const accountsWithDefaults = storedData.map(addDefaultFields);
-
-                // Sắp xếp theo thời gian tạo mới nhất (ưu tiên created_at, sau đó đến timestamp)
-                const sortedAccounts = accountsWithDefaults.sort((a, b) => {
-                    const dateA = new Date(a.created_at || a.timestamp);
-                    const dateB = new Date(b.created_at || b.timestamp);
-                    return dateB - dateA;
-                });
-
-                // Cập nhật lại key sau khi sắp xếp
-                const accountsWithKeys = sortedAccounts.map((account, index) => ({
-                    ...account,
-                    key: index + 1
-                }));
-                setUserAccounts(accountsWithKeys);
-
-                // Lưu lại data đã được chuẩn hóa
-                localStorage.setItem('userAccountsData', JSON.stringify(accountsWithKeys));
-            } catch (error) {
-                console.error('Error loading accounts:', error);
-                setUserAccounts([]);
-            }
-        };
-        loadAndSortAccounts();
-
-        // Set up interval để tự động refresh data
-        const intervalId = setInterval(loadAndSortAccounts, 5000); // Refresh mỗi 5 giây
-
-        // Cleanup interval khi component unmount
-        return () => clearInterval(intervalId);
+        const storedData = JSON.parse(localStorage.getItem('adminAccountsData')) || [];
+        setTeacherAccounts(storedData);
     }, []);
 
     const handleAddOrUpdate = (values) => {
-        const currentTime = new Date().toISOString();
-        const accountData = {
-            ...values,
-            image: imageUrl,
-            status: 'Hoạt động',
-            timestamp: Date.now(),
-            created_at: currentTime,
-            key: 1
-        };
-        let updatedAccounts;
+        const updatedAccounts = [...teacherAccounts];
+        const accountData = { ...values, image: imageUrl };
 
         if (editIndex !== null) {
-            // Khi cập nhật, giữ nguyên timestamp và created_at
-            const oldAccount = userAccounts[editIndex];
-            updatedAccounts = userAccounts.map((account, index) =>
-                index === editIndex
-                    ? {
-                        ...accountData,
-                        status: oldAccount.status,
-                        timestamp: oldAccount.timestamp,
-                        created_at: oldAccount.created_at
-                    }
-                    : account
-            );
+            updatedAccounts[editIndex] = { ...updatedAccounts[editIndex], ...accountData };
         } else {
-            // Thêm mới tài khoản
-            updatedAccounts = [accountData, ...userAccounts];
+            updatedAccounts.push({ key: updatedAccounts.length + 1, status: 'Hoạt động', ...accountData });
         }
 
-        // Cập nhật lại key cho tất cả các tài khoản
-        updatedAccounts = updatedAccounts.map((account, index) => ({
-            ...account,
-            key: index + 1
-        }));
-
-        setUserAccounts(updatedAccounts);
-        localStorage.setItem('userAccountsData', JSON.stringify(updatedAccounts));
+        setTeacherAccounts(updatedAccounts);
+        localStorage.setItem('adminAccountsData', JSON.stringify(updatedAccounts));
         setIsModalVisible(false);
         setEditIndex(null);
         form.resetFields();
         setImageUrl(null);
     };
 
-    const confirmDelete = () => {
-        const updatedAccounts = userAccounts
-            .filter((_, i) => i !== userAccounts.indexOf(selectedAccount))
-            .map((account, index) => ({
-                ...account,
-                key: index + 1
-            }));
-
-        setUserAccounts(updatedAccounts);
-        localStorage.setItem('userAccountsData', JSON.stringify(updatedAccounts));
-        setIsDeleteConfirmModalVisible(false);
-        setSelectedAccount(null);
-    };
-
     const handleEdit = (index) => {
         setEditIndex(index);
-        form.setFieldsValue(userAccounts[index]);
-        setImageUrl(userAccounts[index].image);
+        form.setFieldsValue(teacherAccounts[index]);
+        setImageUrl(teacherAccounts[index].image);
         setIsModalVisible(true);
     };
 
     const handleDelete = (index) => {
-        setSelectedAccount(userAccounts[index]);
+        setSelectedAccount(teacherAccounts[index]);
         setIsDeleteConfirmModalVisible(true);
+    };
+
+    const confirmDelete = () => {
+        const updatedAccounts = teacherAccounts.filter((_, i) => i !== teacherAccounts.indexOf(selectedAccount));
+        setTeacherAccounts(updatedAccounts);
+        localStorage.setItem('adminAccountsData', JSON.stringify(updatedAccounts));
+        setIsDeleteConfirmModalVisible(false);
+        setSelectedAccount(null);
     };
 
     const handleAdd = () => {
@@ -147,20 +76,15 @@ const UserAccount = () => {
     };
 
     const handleStatusChange = (index) => {
-        setSelectedAccount(userAccounts[index]);
+        setSelectedAccount(teacherAccounts[index]);
         setIsStatusConfirmModalVisible(true);
     };
 
     const confirmStatusChange = (newStatus) => {
-        const updatedAccounts = userAccounts.map((account, index) => {
-            if (index === userAccounts.indexOf(selectedAccount)) {
-                return { ...account, status: newStatus };
-            }
-            return account;
-        });
-
-        setUserAccounts(updatedAccounts);
-        localStorage.setItem('userAccountsData', JSON.stringify(updatedAccounts));
+        const updatedAccounts = [...teacherAccounts];
+        updatedAccounts[teacherAccounts.indexOf(selectedAccount)].status = newStatus;
+        setTeacherAccounts(updatedAccounts);
+        localStorage.setItem('adminAccountsData', JSON.stringify(updatedAccounts));
         setIsStatusConfirmModalVisible(false);
         setSelectedAccount(null);
     };
@@ -171,7 +95,6 @@ const UserAccount = () => {
         { title: 'Mật khẩu', dataIndex: 'password', width: 150 },
         { title: 'Họ và Tên', dataIndex: 'fullName', width: 150 },
         { title: 'Giới tính', dataIndex: 'gender', width: 90, align: "center" },
-        { title: 'Chức vụ', dataIndex: 'role', width: 120, align: "center" },
         {
             title: 'Hình ảnh',
             align: "center",
@@ -179,7 +102,7 @@ const UserAccount = () => {
             render: (image) => (
                 <div className="flex items-center justify-center h-full">
                     {image ? (
-                        <img src={image} alt="avatar" className="w-12 h-12 rounded-full" />
+                        <img src={image} alt="image" className="w-12 h-12 rounded-full" />
                     ) : (
                         'Đang cập nhật'
                     )}
@@ -216,16 +139,16 @@ const UserAccount = () => {
     return (
         <div>
             <div className="flex items-center justify-between">
-                <div>Tổng số tài khoản Người dùng: {userAccounts.length}</div>
+                <div>Tổng số tài khoản Admin: {teacherAccounts.length}</div>
                 <Button type="primary" onClick={handleAdd} className="mb-4">
                     <PlusOutlined /> Thêm Tài khoản
                 </Button>
             </div>
-            <Table columns={columns} className="custom-table" dataSource={userAccounts} pagination={false} />
+            <Table columns={columns} className="custom-table" dataSource={teacherAccounts} pagination={false} />
 
             {/* Modal Thêm/Cập nhật */}
             <Modal
-                title={editIndex !== null ? 'Cập nhật Tài khoản' : 'Thêm Tài khoản'}
+                title={editIndex !== null ? 'Cập nhật Tài khoản Admin' : 'Thêm Tài khoản Admin'}
                 visible={isModalVisible}
                 onCancel={() => setIsModalVisible(false)}
                 footer={null}
@@ -246,11 +169,8 @@ const UserAccount = () => {
                             <Select.Option value="Nữ">Nữ</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name="role" label="Chức vụ" rules={[{ required: true, message: 'Vui lòng chọn chức vụ!' }]}>
-                        <Select placeholder="Lựa chọn chức vụ cho đăng nhập">
-                            <Select.Option value="Học sinh">Học sinh</Select.Option>
-                            <Select.Option value="Phụ huynh">Phụ huynh</Select.Option>
-                        </Select>
+                    <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng chọn bộ môn!' }]}>
+                        <Select options={subjects} placeholder="Lựa chọn bộ môn Admin" />
                     </Form.Item>
                     <Form.Item label="Hình ảnh">
                         <Upload
@@ -262,7 +182,7 @@ const UserAccount = () => {
                             }}
                         >
                             {imageUrl ? (
-                                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                                <img src={imageUrl} alt="image" style={{ width: '100%' }} />
                             ) : (
                                 <div>
                                     <PlusOutlined />
@@ -350,4 +270,4 @@ const UserAccount = () => {
     );
 };
 
-export default UserAccount;
+export default AdminAccount;
