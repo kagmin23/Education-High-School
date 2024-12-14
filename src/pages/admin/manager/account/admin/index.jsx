@@ -169,7 +169,7 @@ const AdminAccount = () => {
                             <Select.Option value="Nữ">Nữ</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng chọn bộ môn!' }]}>
+                    <Form.Item name="subject" label="Bộ Môn" rules={[{ required: false, message: 'Vui lòng chọn bộ môn!' }]}>
                         <Select options={subjects} placeholder="Lựa chọn bộ môn Admin" />
                     </Form.Item>
                     <Form.Item label="Hình ảnh">

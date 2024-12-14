@@ -1,16 +1,18 @@
-import { Button, Card, Form, Input, List, message } from 'antd';
+import { Button, Card, Form, Input, List, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const InfoManagement = () => {
     const [form] = Form.useForm();
-    const [schoolData, setSchoolData] = useState(null);
+    const [schoolInfoData, setSchoolInfoData] = useState(null);
     const [activities, setActivities] = useState([]);
+
+    const { confirm } = Modal;
 
     useEffect(() => {
         const data = localStorage.getItem('schoolInfoData');
         if (data) {
             const parsedData = JSON.parse(data);
-            setSchoolData(parsedData);
+            setSchoolInfoData(parsedData);
             form.setFieldsValue(parsedData);
             if (parsedData.activities) {
                 setActivities(parsedData.activities);
@@ -29,10 +31,28 @@ const InfoManagement = () => {
     };
 
     const removeActivity = (index) => {
-        const newActivities = activities.filter((_, i) => i !== index);
-        setActivities(newActivities);
+        confirm({
+            title: 'Xác nhận xoá',
+            content: 'Bạn có chắc chắn muốn xoá hoạt động này không?',
+            okText: 'Xoá',
+            okType: 'danger',
+            cancelText: 'Huỷ',
+            onOk() {
+                const newActivities = activities.filter((_, i) => i !== index);
+                setActivities(newActivities);
+    
+                // Lưu lại dữ liệu cập nhật vào localStorage
+                const currentFormData = form.getFieldsValue();
+                const updatedData = { ...currentFormData, activities: newActivities };
+                localStorage.setItem('schoolInfoData', JSON.stringify(updatedData));
+                message.success('Đã xoá hoạt động!');
+            },
+            onCancel() {
+                message.info('Đã huỷ thao tác xoá.');
+            },
+        });
     };
-
+    
     const onFinish = (values) => {
         values.activities = activities; // Lưu trữ hoạt động dưới dạng mảng
         localStorage.setItem('schoolInfoData', JSON.stringify(values));
