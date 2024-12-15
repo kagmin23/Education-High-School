@@ -67,42 +67,42 @@ const InfoManagement = () => {
                     label="Tên trường"
                     rules={[{ required: true, message: 'Vui lòng nhập tên trường!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Nhập tên trường' />
                 </Form.Item>
                 <Form.Item
                     name="establishedYear"
                     label="Năm thành lập"
                     rules={[{ required: true, message: 'Vui lòng nhập năm thành lập!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Nhập năm thành lập'/>
                 </Form.Item>
                 <Form.Item
                     name="location"
                     label="Địa chỉ"
                     rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Nhập địa chỉ'/>
                 </Form.Item>
                 <Form.Item
                     name="phone"
-                    label="Số điện thoại"
-                    rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+                    label="Số điện thoại Hotline"
+                    rules={[{ required: true, message: 'Vui lòng nhập số điện thoại Hotline!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Nhập số điện thoại Hotline'/>
                 </Form.Item>
                 <Form.Item
                     name="introduction"
                     label="Giới thiệu chung"
                     rules={[{ required: true, message: 'Vui lòng nhập giới thiệu chung!' }]}
                 >
-                    <Input.TextArea rows={4} />
+                    <Input.TextArea rows={4} placeholder='Nhập giới thiệu chung' />
                 </Form.Item>
                 <Form.Item
                     name="program"
-                    label="Chương trình học"
+                    label="Chương trình dạy & học"
                     rules={[{ required: true, message: 'Vui lòng nhập chương trình học!' }]}
                 >
-                    <Input.TextArea rows={4} />
+                    <Input.TextArea rows={4} placeholder='Nhập khái quát về chương trình dạy và học'/>
                 </Form.Item>
                 
                 <Form.Item label="Hoạt động ngoại khóa">
@@ -121,7 +121,7 @@ const InfoManagement = () => {
                                 <Input
                                     value={item}
                                     onChange={(e) => updateActivity(e.target.value, index)}
-                                    placeholder="Nhập hoạt động"
+                                    placeholder="Thêm hoạt động"
                                 />
                             </List.Item>
                         )}
@@ -131,30 +131,30 @@ const InfoManagement = () => {
                 <Form.Item
                     name="memory"
                     label="Kỷ niệm đáng nhớ"
-                    rules={[{ required: true, message: 'Vui lòng nhập kỷ niệm đáng nhớ!' }]}
+                    rules={[{ required: false, message: 'Vui lòng nhập kỷ niệm đáng nhớ!' }]}
                 >
-                    <Input.TextArea rows={4} />
+                    <Input.TextArea rows={4} placeholder='Nhập kỉ niệm'/>
                 </Form.Item>
                 <Form.Item
                     name="future"
                     label="Triển vọng tương lai"
-                    rules={[{ required: true, message: 'Vui lòng nhập triển vọng tương lai!' }]}
+                    rules={[{ required: false, message: 'Vui lòng nhập triển vọng tương lai!' }]}
                 >
-                    <Input.TextArea rows={4} />
+                    <Input.TextArea rows={4} placeholder='Nhập triển vọng'/>
                 </Form.Item>
                 <Form.Item
                     name="email"
                     label="Email liên hệ"
-                    rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                    rules={[{ required: false, message: 'Vui lòng nhập email!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Thêm địa chỉ email' />
                 </Form.Item>
                 <Form.Item
                     name="website"
                     label="Website"
-                    rules={[{ required: true, message: 'Vui lòng nhập website!' }]}
+                    rules={[{ required: false, message: 'Vui lòng nhập website!' }]}
                 >
-                    <Input />
+                    <Input placeholder='Thêm địa chỉ website'/>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
