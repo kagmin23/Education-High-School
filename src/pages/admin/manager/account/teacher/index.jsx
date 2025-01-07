@@ -5,6 +5,7 @@ import subjects from '../../../../../models/typesSubAdd';
 import '../../main.css';
 
 const TeacherAccount = () => {
+    const [teachers, setTeachers] = useState();
     const [teacherAccounts, setTeacherAccounts] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDeleteConfirmModalVisible, setIsDeleteConfirmModalVisible] = useState(false);
@@ -15,8 +16,11 @@ const TeacherAccount = () => {
     const [form] = Form.useForm();
 
     useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem('teacherAccountsData')) || [];
-        setTeacherAccounts(storedData);
+        const storedTeachers = JSON.parse(localStorage.getItem('teachers')) || [];
+        setTeachers(storedTeachers);
+
+        const storedTeacherAccounts = JSON.parse(localStorage.getItem('teacherAccountsData')) || [];
+        setTeacherAccounts(storedTeacherAccounts);
     }, []);
 
     const handleAddOrUpdate = (values) => {
@@ -93,7 +97,7 @@ const TeacherAccount = () => {
         { title: 'STT', dataIndex: 'key', width: 10, align: "center" },
         { title: 'Tài khoản', dataIndex: 'username', width: 150 },
         { title: 'Mật khẩu', dataIndex: 'password', width: 150 },
-        { title: 'Họ và Tên', dataIndex: 'fullName', width: 150 },
+        { title: 'Giáo viên', dataIndex: 'teachers', width: 150 },
         { title: 'Giới tính', dataIndex: 'gender', width: 90, align: "center" },
         { title: 'Bộ môn', dataIndex: 'subject', width: 120, align: "center" },
         {
@@ -155,23 +159,33 @@ const TeacherAccount = () => {
                 footer={null}
             >
                 <Form form={form} onFinish={handleAddOrUpdate} layout="vertical">
+                    <Form.Item
+                        name="teachers"
+                        label="Giáo viên"
+                        rules={[{ required: true, message: "Vui lòng chọn Giáo viên!" }]}
+                    >
+                        <Select placeholder="Chọn Giáo viên">
+                            {teachers?.map((teacher) => (
+                                <Select.Option key={teacher.id} value={teacher.id}>
+                                    {teacher.name}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng chọn bộ môn!' }]}>
+                        <Select options={subjects} placeholder="Lựa chọn bộ môn Giáo viên" />
+                    </Form.Item>
                     <Form.Item name="username" label="Tài khoản" rules={[{ required: true, message: 'Vui lòng nhập tài khoản!' }]}>
                         <Input placeholder="Nhập tên tài khoản" />
                     </Form.Item>
                     <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
                         <Input.Password placeholder="Nhập mật khẩu" />
                     </Form.Item>
-                    <Form.Item name="fullName" label="Họ và Tên" rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}>
-                        <Input placeholder="Nhập họ và tên" />
-                    </Form.Item>
                     <Form.Item name="gender" label="Giới tính" rules={[{ required: true, message: 'Vui lòng chọn giới tính!' }]}>
                         <Select placeholder="Chọn giới tính">
                             <Select.Option value="Nam">Nam</Select.Option>
                             <Select.Option value="Nữ">Nữ</Select.Option>
                         </Select>
-                    </Form.Item>
-                    <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng chọn bộ môn!' }]}>
-                        <Select options={subjects} placeholder="Lựa chọn bộ môn Giáo viên" />
                     </Form.Item>
                     <Form.Item label="Hình ảnh">
                         <Upload

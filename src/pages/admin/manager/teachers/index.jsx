@@ -103,10 +103,10 @@ const TeacherManagement = () => {
       title: 'Số điện thoại',
       dataIndex: 'phone',
     },
-    {
-      title: 'Tài khoản',
-      dataIndex: 'account',
-    },
+    // {
+    //   title: 'Tài khoản',
+    //   dataIndex: 'account',
+    // },
     {
       title: 'Chủ nhiệm',
       dataIndex: 'class',
@@ -165,20 +165,20 @@ const TeacherManagement = () => {
             </Upload>
           </Form.Item>
           <Form.Item name="name" label="Họ và Tên" rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}>
-            <Input />
+            <Input placeholder="Nhập họ và tên" />
           </Form.Item>
-          <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng nhập bộ môn!' }]}>
-            <Input />
+          <Form.Item name="subject" label="Bộ Môn" rules={[{ required: true, message: 'Vui lòng chọn bộ môn!' }]}>
+            <Input placeholder="Lựa chọn bộ môn" />
           </Form.Item>
           <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}>
-            <Input />
+            <Input placeholder="Nhập số điện thoại" />
           </Form.Item>
-          <Form.Item name="account" label="Tài khoản" rules={[{ required: true, message: 'Vui lòng nhập tài khoản!' }]}>
+          {/* <Form.Item name="account" label="Tài khoản" rules={[{ required: true, message: 'Vui lòng nhập tài khoản!' }]}>
             <Input />
           </Form.Item>
           <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
             <Input.Password />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item name="class" label="Chủ nhiệm" rules={[{ required: false }]}>
             <Select placeholder="Chọn lớp">
               {classes.map((className, index) => (

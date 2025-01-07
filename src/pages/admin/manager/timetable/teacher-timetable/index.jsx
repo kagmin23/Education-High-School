@@ -1,49 +1,62 @@
 import { DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, Modal, Select, notification } from 'antd';
 import { useEffect, useState } from 'react';
-import subjects from '../../../../../models/types';
 
 const TeacherTimetable = () => {
-  const DEFAULT_CLASS = "12T";
-  const [selectedClass, setSelectedClass] = useState(DEFAULT_CLASS);
+  const DEFAULT_TEACHER = "Hồ Thị Hồng Liên";
+  const [selectedTeacher, setSelectedTeacher] = useState(DEFAULT_TEACHER);
   const [classes, setClasses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [timetableData, setTimetableData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
   const [showTable, setShowTable] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [tempTimetableData, setTempTimetableData] = useState({});
-  const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
+  const [selectedSubject, setSelectedSubject] = useState('Chọn Lớp học');
 
   useEffect(() => {
+    // Lấy danh sách giáo viên từ localStorage
+    const storedTeachers = localStorage.getItem('teachers');
+    if (storedTeachers) {
+      try {
+        const parsedTeachers = JSON.parse(storedTeachers);
+        setTeachers(parsedTeachers);
+        if (!parsedTeachers.some(t => t.id === DEFAULT_TEACHER)) {
+          const updatedTeachers = [...parsedTeachers, { id: DEFAULT_TEACHER, name: 'Hồ Thị Hồng Liên' }];
+          setTeachers(updatedTeachers);
+          localStorage.setItem('teachers', JSON.stringify(updatedTeachers));
+        }
+      } catch (error) {
+        notification.error({ message: 'Lỗi', description: 'Không thể tải danh sách giáo viên' });
+      }
+    } else {
+      const defaultTeachers = [{ id: DEFAULT_TEACHER, name: 'Hồ Thị Hồng Liên' }];
+      setTeachers(defaultTeachers);
+      localStorage.setItem('teachers', JSON.stringify(defaultTeachers));
+    }
+
+    // Lấy danh sách lớp học từ localStorage
     const storedClasses = localStorage.getItem('classes');
     if (storedClasses) {
       try {
         const parsedClasses = JSON.parse(storedClasses);
         setClasses(parsedClasses);
-        if (!parsedClasses.some(c => c.id === DEFAULT_CLASS)) {
-          const updatedClasses = [...parsedClasses, { id: DEFAULT_CLASS, name: '12T' }];
-          setClasses(updatedClasses);
-          localStorage.setItem('classes', JSON.stringify(updatedClasses));
-        }
       } catch (error) {
         notification.error({ message: 'Lỗi', description: 'Không thể tải danh sách lớp học' });
       }
-    } else {
-      const defaultClasses = [{ id: DEFAULT_CLASS, name: '12T' }];
-      setClasses(defaultClasses);
-      localStorage.setItem('classes', JSON.stringify(defaultClasses));
     }
 
+    // Lấy dữ liệu thời khóa biểu
     const storedTimetables = localStorage.getItem('teacherTimetablesData');
     if (storedTimetables) {
       try {
         const parsedTimetables = JSON.parse(storedTimetables);
         setTimetableData(parsedTimetables);
         setTempTimetableData(parsedTimetables);
-        if (!parsedTimetables[DEFAULT_CLASS]) {
+        if (!parsedTimetables[DEFAULT_TEACHER]) {
           const newData = createEmptyData();
-          const updatedTimetables = { ...parsedTimetables, [DEFAULT_CLASS]: newData };
+          const updatedTimetables = { ...parsedTimetables, [DEFAULT_TEACHER]: newData };
           setTimetableData(updatedTimetables);
           setTempTimetableData(updatedTimetables);
           localStorage.setItem('teacherTimetablesData', JSON.stringify(updatedTimetables));
@@ -53,7 +66,7 @@ const TeacherTimetable = () => {
       }
     } else {
       const newData = createEmptyData();
-      const initialTimetables = { [DEFAULT_CLASS]: newData };
+      const initialTimetables = { [DEFAULT_TEACHER]: newData };
       setTimetableData(initialTimetables);
       setTempTimetableData(initialTimetables);
       localStorage.setItem('teacherTimetablesData', JSON.stringify(initialTimetables));
@@ -70,7 +83,7 @@ const TeacherTimetable = () => {
       render: (_, record) => {
         if (record.noCRUD) return null;
         const dayKey = day.toLowerCase().replace('thứ ', '');
-        const value = tempTimetableData[selectedClass]?.find(item => item.key === record.key)?.[dayKey] || '';
+        const value = tempTimetableData[selectedTeacher]?.find(item => item.key === record.key)?.[dayKey] || '';
 
         return (
           <div className="flex items-center justify-end w-32 space-x-2">
@@ -129,74 +142,73 @@ const TeacherTimetable = () => {
     return initialData;
   };
 
-  const handleClassSelect = (classId) => {
-    if (!classId) {
-      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn một lớp để xem và chỉnh sửa thời khóa biểu' });
+  const handleTeacherSelect = (teacherId) => {
+    if (!teacherId) {
+      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn một Giáo viên để xem và chỉnh sửa thời khóa biểu' });
       setShowTable(false);
       return;
     }
 
-    setSelectedClass(classId);
+    setSelectedTeacher(teacherId);
     setShowTable(true);
 
-    if (!tempTimetableData[classId]) {
+    if (!tempTimetableData[teacherId]) {
       const newData = createEmptyData();
-      setTempTimetableData(prev => ({ ...prev, [classId]: newData }));
+      setTempTimetableData(prev => ({ ...prev, [teacherId]: newData }));
       setHasUnsavedChanges(true);
     }
   };
 
   const handleEdit = (key, day) => {
-    if (!selectedClass) {
-      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn lớp trước khi chỉnh sửa' });
+    if (!selectedTeacher) {
+      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn giáo viên trước khi chỉnh sửa' });
       return;
     }
 
-    const record = tempTimetableData[selectedClass].find(item => item.key === key);
+    const record = tempTimetableData[selectedTeacher].find(item => item.key === key);
     setCurrentRecord({ ...record, day, value: record[day] || '' });
+    setSelectedSubject(record[day] || 'Chọn Lớp học');
     setIsModalOpen(true);
-    setSelectedSubject(subjects[0]);
   };
 
   const handleDelete = (key, day, value, time, time_details, dayName) => {
-    if (!selectedClass) return;
+    if (!selectedTeacher) return;
 
-    // Show confirmation modal for deletion
     Modal.confirm({
       title: 'Xác nhận xóa',
       content: (
         <div>
-          <p>Bạn có chắc chắn muốn xóa môn học này?</p>
+          <p>Bạn có chắc chắn muốn xóa Lớp học này?</p>
           <p><strong>Thời gian:</strong> {time}</p>
           <p><strong>Tiết:</strong> {time_details}</p>
           <p><strong>{dayName}:</strong> {value}</p>
         </div>
       ),
       onOk: () => {
-        const updatedData = tempTimetableData[selectedClass].map(item => {
+        const updatedData = tempTimetableData[selectedTeacher].map(item => {
           if (item.key === key) {
-            return { ...item, [day]: '' }; // Xóa môn học
+            return { ...item, [day]: '' };
           }
           return item;
         });
 
-        setTempTimetableData(prev => ({ ...prev, [selectedClass]: updatedData }));
+        setTempTimetableData(prev => ({ ...prev, [selectedTeacher]: updatedData }));
         setHasUnsavedChanges(true);
       },
     });
   };
 
   const handleDeleteAll = () => {
-    if (!selectedClass) {
-      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn lớp trước khi xóa dữ liệu' });
+    if (!selectedTeacher) {
+      notification.warning({ message: 'Thông báo', description: 'Vui lòng chọn Giáo viên trước khi xóa dữ liệu' });
       return;
     }
 
     Modal.confirm({
       title: 'Xác nhận xóa',
-      content: 'Bạn có chắc chắn muốn xóa tất cả dữ liệu của lớp này?',
+      content: 'Bạn có chắc chắn muốn xóa tất cả dữ liệu của Giáo viên này?',
       onOk: () => {
-        const newTimetableData = { ...tempTimetableData, [selectedClass]: createEmptyData() };
+        const newTimetableData = { ...tempTimetableData, [selectedTeacher]: createEmptyData() };
         setTempTimetableData(newTimetableData);
         setHasUnsavedChanges(true);
       },
@@ -215,42 +227,39 @@ const TeacherTimetable = () => {
   };
 
   const handleSaveSubject = () => {
-    if (selectedSubject === 'Chọn môn học') {
-      notification.warning({ message: 'Thông báo!', description: 'Vui lòng chọn môn học trước khi lưu.' });
+    if (selectedSubject === 'Chọn Lớp học') {
+      notification.warning({ message: 'Thông báo!', description: 'Vui lòng chọn Lớp học trước khi lưu.' });
       return;
     }
 
-    const updatedData = tempTimetableData[selectedClass].map(item => {
+    const updatedData = tempTimetableData[selectedTeacher].map(item => {
       if (item.key === currentRecord.key) {
-        return { ...item, [currentRecord.day]: selectedSubject }; // Cập nhật môn học
+        return { ...item, [currentRecord.day]: selectedSubject };
       }
       return item;
     });
 
-    setTempTimetableData(prev => ({ ...prev, [selectedClass]: updatedData }));
-    const updatedTimetableData = { ...timetableData, [selectedClass]: updatedData };
-    setTimetableData(updatedTimetableData);
-    localStorage.setItem('teacherTimetablesData', JSON.stringify(updatedTimetableData));
-    setIsModalOpen(false);
+    setTempTimetableData(prev => ({ ...prev, [selectedTeacher]: updatedData }));
     setHasUnsavedChanges(true);
+    setIsModalOpen(false);
   };
 
   return (
-    <div className="p-2">
+    <div className="">
       <div className="flex items-center justify-between mb-4">
         <select
           className="p-2 border rounded"
-          onChange={(e) => handleClassSelect(e.target.value)}
-          value={selectedClass || ''}
+          onChange={(e) => handleTeacherSelect(e.target.value)}
+          value={selectedTeacher || ''}
         >
-          {classes.map(classItem => (
-            <option key={classItem.id} value={classItem.id}>
-              {classItem.name}
+          {teachers.map(teacherItem => (
+            <option key={teacherItem.id} value={teacherItem.id}>
+              {teacherItem.name}
             </option>
           ))}
         </select>
 
-        {selectedClass && (
+        {selectedTeacher && (
           <div className="space-x-2">
             <Button
               type="primary"
@@ -268,7 +277,7 @@ const TeacherTimetable = () => {
         )}
       </div>
 
-      {selectedClass && showTable && (
+      {selectedTeacher && showTable && (
         <div className="overflow-x-auto">
           <table className="w-full border border-collapse">
             <thead>
@@ -281,7 +290,7 @@ const TeacherTimetable = () => {
               </tr>
             </thead>
             <tbody>
-              {tempTimetableData[selectedClass]?.map((record) => (
+              {tempTimetableData[selectedTeacher]?.map((record) => (
                 <tr key={record.key}>
                   {columns.map((column, index) => (
                     <td key={index} className={`border p-2 ${column.className || ''}`}>
@@ -300,17 +309,16 @@ const TeacherTimetable = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="p-4 bg-white rounded-lg w-96">
-            <h2 className="mb-4 text-lg font-bold">Chỉnh sửa môn học:</h2>
-
-            {/* Select lựa chọn môn học */}
+            <h2 className="mb-4 text-lg font-bold">Chỉnh sửa Lớp học:</h2>
             <Select
-              value={selectedSubject}
-              onChange={setSelectedSubject}
               className="w-full mb-4"
+              placeholder="Chọn Lớp học"
+              value={selectedSubject}
+              onChange={(value) => setSelectedSubject(value)}
             >
-              {subjects.map((subject, index) => (
-                <Select.Option key={index} value={subject}>
-                  {subject}
+              {classes.map(classItem => (
+                <Select.Option key={classItem.id} value={classItem.name}>
+                  {classItem.name}
                 </Select.Option>
               ))}
             </Select>
