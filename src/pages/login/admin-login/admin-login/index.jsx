@@ -17,8 +17,8 @@ const LoginAdmin = () => {
     };
 
     // Kiểm tra xem thông tin đã có trong localStorage chưa
-    if (!localStorage.getItem('adminAccountsData')) {
-      localStorage.setItem('adminAccountsData', JSON.stringify(accountTestAdmin));
+    if (!localStorage.getItem('adminAccount')) {
+      localStorage.setItem('adminAccount', JSON.stringify(accountTestAdmin));
     }
   }, []);
 
@@ -31,7 +31,7 @@ const LoginAdmin = () => {
       const { username, password } = values;
 
       // Lấy thông tin tài khoản từ localStorage
-      const storedAccount = JSON.parse(localStorage.getItem('adminAccountsData'));
+      const storedAccount = JSON.parse(localStorage.getItem('adminAccount'));
 
       // Kiểm tra thông tin đăng nhập với dữ liệu từ localStorage
       if (storedAccount && username === storedAccount.username && password === storedAccount.password) {
@@ -106,6 +106,9 @@ const LoginAdmin = () => {
 
           <p className="px-5 pt-3 text-xs text-center text-red-500">
             * Trang quản trị quản lý nội bộ trường THPT chỉ dành riêng cho đội ngũ cán bộ phân công!{' '}
+            {/* <a href="/signup/admin" className="text-blue-500">
+              Đăng ký ngay
+            </a> */}
           </p>
         </Form>
 
