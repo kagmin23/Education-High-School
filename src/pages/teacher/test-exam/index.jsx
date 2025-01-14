@@ -185,25 +185,6 @@ const TestExam = () => {
                   <div>
                     <span>{test.name}</span>
                   </div>
-                  {test.completed ? (
-                    <span style={{ color: 'green' }}> - Hoàn thành</span>
-                  ) : (
-                    <Button
-                      type="primary"
-                      size="small"
-                      disabled={
-                        index > 0 && !folder.tests[index - 1].completed || test.locked
-                      }
-                      onClick={() => handleCompleteTest(folder.id, test.id)}
-                    >
-                      Hoàn thành
-                    </Button>
-                  )}
-                  {test.locked && (
-                    <span style={{ color: 'red', marginLeft: '10px' }}>
-                      - Bài kiểm tra đã khóa
-                    </span>
-                  )}
                   {/* Link Button */}
                   {test.link && (
                     <a
