@@ -10,33 +10,12 @@ const TeacherManagement = () => {
   const [visible, setVisible] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState(null);
   const [classes, setClasses] = useState([]);
-  
-  // Dữ liệu giả định cho ví dụ này
-  const defaultTeachers = [
-    {
-      key: '1',
-      image: '',
-      name: 'Nguyễn Văn A',
-      subject: 'Toán',
-      phone: '0123456789',
-      account: 'nguyenvana',
-      class: '10A1',
-    },
-    {
-      key: '2',
-      image: '',
-      name: 'Trần Thị B',
-      subject: 'Lý',
-      phone: '0987654321',
-      account: 'tranthib',
-      class: '10A2',
-    },
-  ];
 
   useEffect(() => {
-    const loadedTeachers = JSON.parse(localStorage.getItem('teachers')) || defaultTeachers;
+    const loadedTeachers = JSON.parse(localStorage.getItem('teachers')) || []; // Lấy dữ liệu giáo viên từ localStorage
     setTeachers(loadedTeachers);
-    const loadedClasses = JSON.parse(localStorage.getItem('classes')) || []; // Giả sử lớp học đã lưu trong localStorage
+
+    const loadedClasses = JSON.parse(localStorage.getItem('classes')) || []; // Lấy dữ liệu lớp học từ localStorage
     setClasses(loadedClasses);
   }, []);
 
@@ -76,14 +55,16 @@ const TeacherManagement = () => {
     const updatedTeachers = teachers.map((teacher) =>
       teacher.key === key ? { ...teacher, class: value } : teacher
     );
-    setTeachers(updatedTeachers);
-    saveTeachersToLocalStorage(updatedTeachers);
+    setTeachers(updatedTeachers); // Cập nhật ngay trong state teachers
+    saveTeachersToLocalStorage(updatedTeachers); // Lưu lại vào localStorage
   };
-
+  
   const columns = [
     {
       title: 'STT',
       dataIndex: 'key',
+      align: 'center',
+      width: 20,
       render: (text, record, index) => index + 1,
     },
     {
@@ -103,32 +84,34 @@ const TeacherManagement = () => {
       title: 'Số điện thoại',
       dataIndex: 'phone',
     },
-    // {
-    //   title: 'Tài khoản',
-    //   dataIndex: 'account',
-    // },
     {
       title: 'Chủ nhiệm',
       dataIndex: 'class',
+      align: 'center',
       render: (text, record) => (
         <Select
+          className='w-24'
           defaultValue={text}
           onChange={(value) => handleClassChange(record.key, value)}
         >
-          {classes.map((className, index) => (
-            <Option key={index} value={className}>{className}</Option>
+          <Option value="Không">Không</Option>
+          {classes.map((classItem) => (
+            <Option key={classItem.key} value={classItem.name}>
+              {classItem.name}
+            </Option>
           ))}
         </Select>
       ),
     },
     {
       title: 'Hành động',
+      align: 'center',
       render: (text, record) => (
         <>
-          <Button onClick={() => handleEdit(record)} type="primary" style={{ marginRight: 8 }}>
+          <Button className='' onClick={() => handleEdit(record)} type="link" style={{ marginRight: 8 }}>
             Chỉnh sửa
           </Button>
-          <Button onClick={() => handleDelete(record.key)} type="danger">
+          <Button className='text-red-500' onClick={() => handleDelete(record.key)} type="link">
             Xóa
           </Button>
         </>
@@ -152,7 +135,7 @@ const TeacherManagement = () => {
       >
         <Form
           layout="vertical"
-          initialValues={editingTeacher || { class: '' }}
+          initialValues={editingTeacher || { class: 'Không' }}
           onFinish={handleOk}
         >
           <Form.Item name="image" label="Hình ảnh">
@@ -171,24 +154,25 @@ const TeacherManagement = () => {
             <Input placeholder="Lựa chọn bộ môn" />
           </Form.Item>
           <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}>
-            <Input placeholder="Nhập số điện thoại" />
+            <Input type='number' placeholder="Nhập số điện thoại" />
           </Form.Item>
-          {/* <Form.Item name="account" label="Tài khoản" rules={[{ required: true, message: 'Vui lòng nhập tài khoản!' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
-            <Input.Password />
-          </Form.Item> */}
-          <Form.Item name="class" label="Chủ nhiệm" rules={[{ required: false }]}>
-            <Select placeholder="Chọn lớp">
-              {classes.map((className, index) => (
-                <Option key={index} value={className}>{className}</Option>
+          <Form.Item
+            name="class"
+            label="Chủ nhiệm"
+            rules={[{ required: true, message: 'Vui lòng chọn lớp!' }]}
+          >
+            <Select defaultValue={editingTeacher ? editingTeacher.class : 'Không'}>
+              <Option value="Không">Không</Option>
+              {classes.map((classItem) => (
+                <Option key={classItem.key} value={classItem.name}>
+                  {classItem.name}
+                </Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              {editingTeacher ? 'Cập nhật' : 'Thêm'}
+              {editingTeacher ? 'Lưu thay đổi' : 'Thêm'}
             </Button>
           </Form.Item>
         </Form>

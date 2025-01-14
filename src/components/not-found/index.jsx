@@ -1,4 +1,3 @@
-// NotFound.js
 import { ToolOutlined } from '@ant-design/icons';
 import React from 'react';
 

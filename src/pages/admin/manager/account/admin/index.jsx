@@ -23,6 +23,7 @@ const AdminAccount = () => {
         const updatedAccounts = [...teacherAccounts];
         const accountData = { ...values, image: imageUrl };
 
+        // Ensure password field is saved properly
         if (editIndex !== null) {
             updatedAccounts[editIndex] = { ...updatedAccounts[editIndex], ...accountData };
         } else {
@@ -221,15 +222,15 @@ const AdminAccount = () => {
                         <p>Họ và Tên: {selectedAccount.fullName}</p>
                         <p>Hình ảnh:</p>
                         {selectedAccount.image && (
-                            <img src={selectedAccount.image} alt="avatar" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+                            <img src={selectedAccount.image} alt="avatar" style={{ width: '100px' }} />
                         )}
                     </>
                 )}
             </Modal>
 
-            {/* Modal xác nhận thay đổi trạng thái */}
+            {/* Modal thay đổi trạng thái */}
             <Modal
-                title="Xác nhận thay đổi trạng thái!"
+                title="Xác nhận thay đổi trạng thái"
                 visible={isStatusConfirmModalVisible}
                 onCancel={() => setIsStatusConfirmModalVisible(false)}
                 footer={[
@@ -239,30 +240,24 @@ const AdminAccount = () => {
                     <Button
                         key="confirm"
                         type="primary"
-                        onClick={() =>
-                            confirmStatusChange(
-                                selectedAccount?.status === 'Hoạt động' ? 'Khoá' : 'Hoạt động'
-                            )
-                        }
+                        onClick={() => confirmStatusChange('Khoá')}
                     >
-                        Xác nhận
+                        Khoá
+                    </Button>,
+                    <Button
+                        key="confirm"
+                        type="primary"
+                        onClick={() => confirmStatusChange('Hoạt động')}
+                    >
+                        Hoạt động
                     </Button>,
                 ]}
             >
-                <p>
-                    {selectedAccount?.status === 'Hoạt động'
-                        ? 'Bạn có chắc chắn muốn Khoá tài khoản này không?'
-                        : 'Bạn có chắc chắn muốn mở Hoạt động cho tài khoản này không?'}
-                </p>
+                <p>Bạn có chắc chắn muốn thay đổi trạng thái của tài khoản này?</p>
                 {selectedAccount && (
                     <>
-                        <p>Trạng thái hiện tại: {selectedAccount.status}</p>
                         <p>Tài khoản: {selectedAccount.username}</p>
-                        <p>Họ và Tên: {selectedAccount.fullName}</p>
-                        <p>Hình ảnh:</p>
-                        {selectedAccount.image && (
-                            <img src={selectedAccount.image} alt="avatar" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                        )}
+                        <p>Trạng thái hiện tại: {selectedAccount.status}</p>
                     </>
                 )}
             </Modal>

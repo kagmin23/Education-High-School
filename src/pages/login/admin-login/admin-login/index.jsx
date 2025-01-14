@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, KeyOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,11 +9,18 @@ const LoginAdmin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Dữ liệu cứng cho giáo viên
-  const accountTestAdmin = {
-    username: 'admin',
-    password: '123',
-  };
+  // Dữ liệu cứng cho giáo viên (Lưu vào localStorage nếu chưa có)
+  useEffect(() => {
+    const accountTestAdmin = {
+      username: 'admin',
+      password: '123',
+    };
+
+    // Kiểm tra xem thông tin đã có trong localStorage chưa
+    if (!localStorage.getItem('adminAccountsData')) {
+      localStorage.setItem('adminAccountsData', JSON.stringify(accountTestAdmin));
+    }
+  }, []);
 
   // Xử lý khi form đăng nhập được submit
   const onFinish = (values) => {
@@ -23,8 +30,11 @@ const LoginAdmin = () => {
       setLoading(false);
       const { username, password } = values;
 
-      // Kiểm tra thông tin đăng nhập với dữ liệu cứng
-      if (username === accountTestAdmin.username && password === accountTestAdmin.password) {
+      // Lấy thông tin tài khoản từ localStorage
+      const storedAccount = JSON.parse(localStorage.getItem('adminAccountsData'));
+
+      // Kiểm tra thông tin đăng nhập với dữ liệu từ localStorage
+      if (storedAccount && username === storedAccount.username && password === storedAccount.password) {
         toast.success('Đăng nhập thành công!');
         // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
         navigate('/admin/dashboard');
@@ -96,9 +106,6 @@ const LoginAdmin = () => {
 
           <p className="px-5 pt-3 text-xs text-center text-red-500">
             * Trang quản trị quản lý nội bộ trường THPT chỉ dành riêng cho đội ngũ cán bộ phân công!{' '}
-            {/* <a href="/signup/admin" className="text-blue-500">
-              Đăng ký ngay
-            </a> */}
           </p>
         </Form>
 

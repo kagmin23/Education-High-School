@@ -5,7 +5,7 @@ import subjects from '../../../../../models/typesSubAdd';
 import '../../main.css';
 
 const TeacherAccount = () => {
-    const [teachers, setTeachers] = useState();
+    const [teachers, setTeachers] = useState([]);  // Thêm state để lưu danh sách giáo viên
     const [teacherAccounts, setTeacherAccounts] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDeleteConfirmModalVisible, setIsDeleteConfirmModalVisible] = useState(false);
@@ -16,6 +16,7 @@ const TeacherAccount = () => {
     const [form] = Form.useForm();
 
     useEffect(() => {
+        // Lấy dữ liệu giáo viên từ localStorage
         const storedTeachers = JSON.parse(localStorage.getItem('teachers')) || [];
         setTeachers(storedTeachers);
 
@@ -164,9 +165,9 @@ const TeacherAccount = () => {
                         label="Giáo viên"
                         rules={[{ required: true, message: "Vui lòng chọn Giáo viên!" }]}
                     >
-                        <Select placeholder="Chọn Giáo viên">
-                            {teachers?.map((teacher) => (
-                                <Select.Option key={teacher.id} value={teacher.id}>
+                        <Select placeholder="Lựa chọn Giáo viên">
+                            {teachers.map((teacher, index) => (
+                                <Select.Option key={index} value={teacher.name}>
                                     {teacher.name}
                                 </Select.Option>
                             ))}
@@ -214,72 +215,28 @@ const TeacherAccount = () => {
                 </Form>
             </Modal>
 
-            {/* Modal xác nhận xóa tài khoản */}
+            {/* Modal Xác nhận xóa */}
             <Modal
-                title="Xác nhận xóa tài khoản!"
+                title="Xác nhận xóa"
                 visible={isDeleteConfirmModalVisible}
+                onOk={confirmDelete}
                 onCancel={() => setIsDeleteConfirmModalVisible(false)}
-                footer={[
-                    <Button key="cancel" onClick={() => setIsDeleteConfirmModalVisible(false)}>
-                        Hủy
-                    </Button>,
-                    <Button key="confirm" type="primary" danger onClick={confirmDelete}>
-                        Xóa
-                    </Button>,
-                ]}
+                okText="Xác nhận"
+                cancelText="Hủy"
             >
-                <p>Bạn có chắc chắn muốn xóa tài khoản này?</p>
-                {selectedAccount && (
-                    <>
-                        <p>Trạng thái hiện tại: {selectedAccount.status}</p>
-                        <p>Tài khoản: {selectedAccount.username}</p>
-                        <p>Họ và Tên: {selectedAccount.fullName}</p>
-                        <p>Hình ảnh:</p>
-                        {selectedAccount.image && (
-                            <img src={selectedAccount.image} alt="avatar" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                        )}
-                    </>
-                )}
+                <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
             </Modal>
 
-            {/* Modal xác nhận thay đổi trạng thái */}
+            {/* Modal Xác nhận trạng thái */}
             <Modal
-                title="Xác nhận thay đổi trạng thái!"
+                title="Xác nhận thay đổi trạng thái"
                 visible={isStatusConfirmModalVisible}
+                onOk={() => confirmStatusChange('Khoá')}
                 onCancel={() => setIsStatusConfirmModalVisible(false)}
-                footer={[
-                    <Button key="cancel" onClick={() => setIsStatusConfirmModalVisible(false)}>
-                        Hủy
-                    </Button>,
-                    <Button
-                        key="confirm"
-                        type="primary"
-                        onClick={() =>
-                            confirmStatusChange(
-                                selectedAccount?.status === 'Hoạt động' ? 'Khoá' : 'Hoạt động'
-                            )
-                        }
-                    >
-                        Xác nhận
-                    </Button>,
-                ]}
+                okText="Khoá"
+                cancelText="Hủy"
             >
-                <p>
-                    {selectedAccount?.status === 'Hoạt động'
-                        ? 'Bạn có chắc chắn muốn Khoá tài khoản này không?'
-                        : 'Bạn có chắc chắn muốn mở Hoạt động cho tài khoản này không?'}
-                </p>
-                {selectedAccount && (
-                    <>
-                        <p>Trạng thái hiện tại: {selectedAccount.status}</p>
-                        <p>Tài khoản: {selectedAccount.username}</p>
-                        <p>Họ và Tên: {selectedAccount.fullName}</p>
-                        <p>Hình ảnh:</p>
-                        {selectedAccount.image && (
-                            <img src={selectedAccount.image} alt="avatar" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                        )}
-                    </>
-                )}
+                <p>Bạn có chắc chắn muốn thay đổi trạng thái tài khoản này?</p>
             </Modal>
         </div>
     );
