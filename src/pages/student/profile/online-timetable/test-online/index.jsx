@@ -1,11 +1,12 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Collapse, Table } from 'antd';
+import { Collapse, Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const { Panel } = Collapse;
 
 const TestOnline = () => {
   const [folders, setFolders] = useState([]);
+  const [openedLink, setOpenedLink] = useState(false); // Trạng thái theo dõi việc nhấn vào link
 
   // Load data from localStorage when the component mounts
   useEffect(() => {
@@ -39,8 +40,24 @@ const TestOnline = () => {
       dataIndex: 'link',
       key: 'link',
       align: 'center',
-      render: (text) => (
-        text ? <a href={text} target="_blank" rel="noopener noreferrer">Đi tới bài kiểm tra <DoubleRightOutlined /></a> : 'Không có link'
+      render: (text, record) => (
+        text ? (
+          <a
+            href={text}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              if (!openedLink && record.id !== folders[0]?.tests[0]?.id) {
+                e.preventDefault(); // Ngừng hành động mặc định nếu bài kiểm tra chưa được mở
+                message.warning("Hãy hoàn thành bài kiểm tra phía trước.");
+              } else {
+                setOpenedLink(true); // Đánh dấu bài kiểm tra đã được mở
+              }
+            }}
+          >
+            Đi tới bài kiểm tra <DoubleRightOutlined />
+          </a>
+        ) : 'Không có link'
       ),
     },
   ];
