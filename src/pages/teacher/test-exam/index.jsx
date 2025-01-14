@@ -185,6 +185,12 @@ const TestExam = () => {
                   <div>
                     <span>{test.name}</span>
                   </div>
+                  <div>
+                    <span>{test.startTime}</span>
+                  </div>
+                  <div>
+                    <span>{test.endTime}</span>
+                  </div>
                   {/* Link Button */}
                   {test.link && (
                     <a

@@ -95,8 +95,11 @@ const StudentLayout = () => {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key="4" icon={<SnippetsOutlined />}>
+          {/* <Menu.Item key="4" icon={<SnippetsOutlined />}>
             <Link to="/student/materials">Tài liệu Giáo án</Link>
+          </Menu.Item> */}
+          <Menu.Item key="4" icon={<SnippetsOutlined />}>
+            <Link to="/student/online-timetable">Lịch trực tuyến</Link>
           </Menu.Item>
           <Menu.Item key="5" icon={<LineChartOutlined />}>
             <Link to="/student/do-test">Kiểm tra trắc nghiệm</Link>

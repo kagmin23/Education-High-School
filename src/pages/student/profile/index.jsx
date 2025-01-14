@@ -1,6 +1,7 @@
 import { Layout } from 'antd';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import NotFound from '../../../components/not-found';
+import OnlineStudent from './online-timetable';
 import StudentProfile from './profile';
 import RegisterParent from './register-parent';
 import Settings from './setting';
@@ -18,6 +19,7 @@ function ProfileStudent() {
                     <Route path="profile" element={<StudentProfile />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="register-parent" element={<RegisterParent />} />
+                    <Route path="online-timetable/profile" element={<OnlineStudent />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Outlet />

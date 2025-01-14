@@ -36,18 +36,23 @@ const ProfileStudentSidebar = () => {
                 <Menu.Item key="1" icon={<UserOutlined />}>
                     <Link to="/student/profile">Hồ sơ cá nhân</Link>
                 </Menu.Item>
-                <Menu.Item key="2" icon={<SettingOutlined />}>
+                <Menu.Item key="2" icon={<UserOutlined />}>
+                    <Link to="/student/online-timetable/profile">Lịch trực tuyến</Link>
+                </Menu.Item>
+                <Menu.Item key="3" icon={<SettingOutlined />}>
                     <Link to="/student/settings">Cài đặt</Link>
                 </Menu.Item>
-                <Menu.Item key="3" icon={<UserAddOutlined />}>
+                <Menu.Item key="4" icon={<UserAddOutlined />}>
                     <Link to="/student/register-parent">Đăng ký Phụ huynh</Link>
                 </Menu.Item>
             </Menu>
             {/* Nút Thoát */}
             <div className="fixed bottom-0 p-4 left-14">
-                <Button type="link" icon={<ArrowLeftOutlined />} className="text-left">
-                    Thoát
-                </Button>
+                <Link to='/student'>
+                    <Button type="link" icon={<ArrowLeftOutlined />} className="text-left">
+                        Thoát
+                    </Button>
+                </Link>
             </div>
         </Sider>
     );
