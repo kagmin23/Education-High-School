@@ -46,8 +46,7 @@ const TestOnline = () => {
   ];
 
   return (
-    <div className="p-4">
-      <h3>Danh sách Thư mục</h3>
+    <div className="">
       <Collapse accordion>
         {folders.map((folder) => (
           <Panel header={folder.name} key={folder.id}>
