@@ -34,7 +34,9 @@ const SidebarTeacher = () => {
         <Menu.Item key="5" icon={<SignatureOutlined />}>
           <Link to="/teacher/test-exam">Bài kiểm tra</Link>
         </Menu.Item>
-
+        <Menu.Item key="6" icon={<SignatureOutlined />}>
+          <Link to="/teacher/online-timetable">Lịch trực tuyến</Link>
+        </Menu.Item>
         {/* Nút Đăng xuất */}
         <Button
           type="link"

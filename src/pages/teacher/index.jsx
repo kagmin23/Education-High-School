@@ -6,6 +6,7 @@ import Document from './document';
 import HomeroomManager from './homeroom';
 import LessonPlan from './lesson-plan';
 import './main.css';
+import OnlineTimeTable from './online-timetable';
 import SidebarTeacher from './sidebar';
 import TestExam from './test-exam';
 
@@ -21,6 +22,7 @@ const RouterTeacher = () => {
           <Route path="/lesson-plan" element={<LessonPlan />} />
           <Route path="/document" element={<Document />} />
           <Route path="/test-exam" element={<TestExam />} />
+          <Route path="/online-timetable" element={<OnlineTimeTable />} />
           {/* Thêm các route khác ở đây nếu cần */}
           <Route path="*" element={<NotFound />} /> {/* Route cho trang không tìm thấy */}
         </Routes>
