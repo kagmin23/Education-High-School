@@ -1,4 +1,4 @@
-import { DoubleRightOutlined } from '@ant-design/icons';
+import { CloudDownloadOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { Collapse, Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -60,6 +60,30 @@ const TestOnline = () => {
         ) : 'Không có link'
       ),
     },
+    {
+      title: 'File',
+      dataIndex: 'file',
+      key: 'file',
+      align: 'center',
+      render: (text) => (
+        text ? (
+          <a
+            href={text}
+            target="_blank"
+            download
+            rel="noopener noreferrer"
+          >
+            Tải xuống file <CloudDownloadOutlined />
+          </a>
+        ) : 'Không có file'
+      ),
+    },
+    {
+        title: 'Thao tác',
+        dataIndex: 'uploadFile',
+        key: 'uploadFile',
+        align: 'center',
+      },
   ];
 
   return (

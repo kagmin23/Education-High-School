@@ -65,7 +65,7 @@ const MainLayout = () => {
           </SubMenu>
 
           <Menu.Item key="4" icon={<SnippetsOutlined />}>
-            <Link to="/login/student">Tài liệu Giáo án</Link>
+            <Link to="/student/online-timetable">Lịch trực tuyến</Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<UserOutlined />}>
             <Link to="/login/parent">Phụ huynh</Link>

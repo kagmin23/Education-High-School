@@ -87,9 +87,8 @@ const ParentLayout = () => {
               <Link to="/login/student">Tốt nghiệp</Link>
             </Menu.Item>
           </SubMenu>
-
           <Menu.Item key="4" icon={<SnippetsOutlined />}>
-            <Link to="/login/student">Tài liệu Giáo án</Link>
+            <Link to="/student/online-timetable">Lịch trực tuyến</Link>
           </Menu.Item>
         </Menu>
       </Sider>

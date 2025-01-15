@@ -1,4 +1,5 @@
-import { Button, Collapse, Form, Input, List, Modal, TimePicker } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Collapse, Form, Input, List, Modal, TimePicker, Upload } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
@@ -11,6 +12,7 @@ const TestExam = () => {
   const [isEditFolderModalVisible, setIsEditFolderModalVisible] = useState(false); // For editing folder
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [form] = Form.useForm();
+  const [uploadedFile, setUploadedFile] = useState(null); // State to store uploaded file
 
   // Load data from localStorage when the component mounts
   useEffect(() => {
@@ -29,6 +31,7 @@ const TestExam = () => {
 
   const openFolderModal = () => {
     form.resetFields();
+    setUploadedFile(null); // Reset file state
     setIsFolderModalVisible(true);
   };
 
@@ -65,6 +68,7 @@ const TestExam = () => {
         name: values.name,
         startTime: values.startTime.format('HH:mm'),
         endTime: values.endTime.format('HH:mm'),
+        file: uploadedFile, // Lưu cả tên và URL của file
         link: values.link,
         completed: false,
         locked: false, // Start with the test unlocked
@@ -150,6 +154,12 @@ const TestExam = () => {
     }
   };
 
+  const handleUpload = (file) => {
+    const fileURL = URL.createObjectURL(file); // Tạo URL từ file
+    setUploadedFile({ name: file.name, url: fileURL }); // Lưu cả tên và URL
+    return false; // Ngăn không cho upload tự động
+  };
+
   return (
     <div className="p-4">
       <h2>Quản lý Thư mục và Bài kiểm tra</h2>
@@ -182,14 +192,30 @@ const TestExam = () => {
               dataSource={folder.tests}
               renderItem={(test, index) => (
                 <List.Item className='flex flex-row justify-between'>
-                  <div>
+                  <div className='w-36'>
                     <span>{test.name}</span>
                   </div>
                   <div>
-                    <span>{test.startTime}</span>
+                    <span>Bắt đầu: {test.startTime}</span>
                   </div>
                   <div>
-                    <span>{test.endTime}</span>
+                    <span>Kết thúc: {test.endTime}</span>
+                  </div>
+                  <div>
+                    <span>File: </span>
+                    {test.file ? (
+                      <a
+                        href={test.file.url} // URL của file
+                        download={test.file.name} // Tên file khi tải xuống
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'blue' }}
+                      >
+                        {test.file.name} {/* Tên file hiển thị */}
+                      </a>
+                    ) : (
+                      <span>Không có file</span>
+                    )}
                   </div>
                   {/* Link Button */}
                   {test.link && (
@@ -286,9 +312,15 @@ const TestExam = () => {
           <Form.Item
             name="link"
             label="Link bài kiểm tra"
-            rules={[{ required: true, message: 'Vui lòng nhập link bài kiểm tra!' }]}
+            rules={[{ required: false, message: 'Vui lòng nhập link bài kiểm tra!' }]}
           >
             <Input placeholder="Nhập link bài kiểm tra" />
+          </Form.Item>
+          <Form.Item label="Tải lên File">
+            <Upload beforeUpload={handleUpload} maxCount={1}>
+              <Button icon={<UploadOutlined />}>Chọn File</Button>
+            </Upload>
+            {uploadedFile && <div>Tệp đã chọn: {uploadedFile.name}</div>}
           </Form.Item>
         </Form>
       </Modal>
