@@ -4,15 +4,23 @@ const subjects = [
   "Toán",
   "Ngữ Văn",
   "Tiếng Anh",
+  "TC ANH",
   "Vật Lý",
+  "TC LÝ",
   "Hoá Học",
+  "TC HÓA",
   "Sinh Học",
   "Lịch Sử",
   "Địa Lý",
+  "TC ĐỊA",
   "GDCD",
   "Tin học",
   "Thể dục",
+  "SHL",
   "GDQP",
+  "GDĐP",
+  "HĐTN",
+  "THNN",
 ];
 
 export default subjects;

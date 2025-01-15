@@ -3,15 +3,23 @@ const subjects = [
     { value: 'Toán', label: 'Toán' },
     { value: 'Ngữ Văn', label: 'Ngữ Văn' },
     { value: 'Tiếng Anh', label: 'Tiếng Anh' },
+    { value: 'TC Anh', label: 'TC Anh' },
     { value: 'Vật Lý', label: 'Vật Lý' },
+    { value: 'TC Lý', label: 'TC Lý' },
     { value: 'Hoá Học', label: 'Hoá Học' },
+    { value: 'TC Hoá', label: 'TC Hoá' },
     { value: 'Sinh Học', label: 'Sinh Học' },
     { value: 'Lịch Sử', label: 'Lịch Sử' },
     { value: 'Địa Lý', label: 'Địa Lý' },
+    { value: 'TC Địa', label: 'TC Địa' },
     { value: 'GDCD', label: 'GDCD' },
     { value: 'Tin học', label: 'Tin học' },
     { value: 'Thể dục', label: 'Thể dục' },
     { value: 'GDQP', label: 'GDQP' },
+    { value: 'SHL', label: 'SHL' },
+    { value: 'GDĐP', label: 'GDĐP' },
+    { value: 'HĐTN', label: 'HĐTN' },
+    { value: 'THNN', label: 'THNN' },
 ];
 
 export default subjects;
