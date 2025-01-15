@@ -95,7 +95,7 @@ const ClassManagement = () => {
       render: (text) => <span>{text}</span>,
     },
     {
-      title: 'Số học sinh',
+      title: 'Số lượng học sinh tối đa',
       dataIndex: 'studentCount',
       align: 'center',
       width: 140,
@@ -183,8 +183,8 @@ const ClassManagement = () => {
           <Form.Item name="name" label="Lớp" rules={[{ required: true, message: 'Vui lòng nhập tên lớp!' }]}>
             <Input placeholder="Nhập tên lớp" />
           </Form.Item>
-          <Form.Item name="studentCount" label="Số học sinh" rules={[{ required: true, message: 'Vui lòng nhập số học sinh!' }]}>
-            <Input placeholder="Nhập số học sinh trong lớp" type="number" min={0} />
+          <Form.Item name="studentCount" label="Số lượng học sinh tối đa" rules={[{ required: true, message: 'Vui lòng nhập số lượng học sinh tối đa!' }]}>
+            <Input placeholder="Nhập số lượng học sinh tối đa trong lớp" type="number" min={0} />
           </Form.Item>
           <Form.Item name="teacher" label="Giáo viên chủ nhiệm" rules={[{ required: false, message: 'Vui lòng chọn giáo viên chủ nhiệm!' }]}>
             <Select placeholder="Chọn giáo viên">
