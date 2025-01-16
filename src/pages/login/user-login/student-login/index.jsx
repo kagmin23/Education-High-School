@@ -100,7 +100,7 @@ const LoginStudent = () => {
 
           <p className="text-center text-gray-600">
             Bạn chưa có tài khoản?{' '}
-            <a href="/signup/student" className="text-blue-500">
+            <a href="/register" className="text-blue-500">
               Đăng ký ngay
             </a>
           </p>
