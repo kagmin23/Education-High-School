@@ -65,43 +65,43 @@ const Exercises = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container px-4 py-8 mx-auto">
             <h1 className="mb-5 text-2xl font-bold">Danh sách bài tập</h1>
             {chapters.length === 0 ? (
                 <p>Không có dữ liệu bài tập</p>
             ) : (
                 chapters.map((chapter, index) => (
-                    <div key={index} className="chapter">
+                    <div key={index} className="mb-8">
                         <h2 className="text-xl font-semibold">{chapter.title} - {chapter.subject}</h2>
-                        <ul className="mt-4 lesson-list">
+                        <ul className="mt-4">
                             {chapter.lessons.map((lesson) => (
-                                <li key={lesson.id} className="mb-2 lesson-item">
-                                    <h3 className="font-medium">{lesson.name}</h3>
-                                    <p>{lesson.content}</p>
+                                <li key={lesson.id} className="p-4 mb-4 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50">
+                                    <h3 className="text-lg font-medium">{lesson.name}</h3>
+                                    <p className="mt-2 text-gray-700">{lesson.content}</p>
 
-                                    {/* Hiển thị các bình luận */}
-                                    <div className="mt-4 chat-box">
-                                        <h4 className="font-semibold">Bình luận:</h4>
-                                        <ul className="comment-list">
+                                    {/* Khung bình luận */}
+                                    <div className="pt-4 mt-4 border-t-2 chat-box">
+                                        <h4 className="text-lg font-semibold">Bình luận:</h4>
+                                        <ul className="mt-2 comment-list">
                                             {(lessonComments[lesson.id] && lessonComments[lesson.id].length > 0) ? (
                                                 lessonComments[lesson.id].map((comment, idx) => (
-                                                    <li key={idx} className="comment-item">
-                                                        <p>{comment}</p>
+                                                    <li key={idx} className="p-2 mb-2 bg-white border border-gray-200 rounded-md shadow-sm comment-item">
+                                                        <p className="text-gray-600">{comment}</p>
                                                     </li>
                                                 ))
                                             ) : (
-                                                <p>Chưa có bình luận nào.</p>
+                                                <p className="text-gray-500">Chưa có bình luận nào.</p>
                                             )}
                                         </ul>
                                         {/* Form để thêm bình luận */}
                                         <textarea
-                                            className="w-full p-2 mt-2 border border-gray-300"
+                                            className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                                             value={inputComments[lesson.id] || ""}
                                             onChange={(e) => handleInputChange(lesson.id, e)}
                                             placeholder="Viết bình luận..."
                                         />
                                         <button
-                                            className="px-4 py-2 mt-2 text-white bg-blue-500 rounded"
+                                            className="px-4 py-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
                                             onClick={() => handleCommentSubmit(lesson.id)}
                                         >
                                             Gửi bình luận
