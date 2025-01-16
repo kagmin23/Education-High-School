@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import NotFound from '../../components/not-found';
 import DasboardTeacher from './dashboard/teaching-schedule/index';
 import Document from './document';
+import Exercises from './exercises';
 import HomeroomManager from './homeroom';
 import LessonPlan from './lesson-plan';
 import './main.css';
@@ -23,6 +24,7 @@ const RouterTeacher = () => {
           <Route path="/document" element={<Document />} />
           <Route path="/test-exam" element={<TestExam />} />
           <Route path="/online-timetable" element={<OnlineTimeTable />} />
+          <Route path="/lesson-plan/exercises" element={<Exercises />} />
           {/* Thêm các route khác ở đây nếu cần */}
           <Route path="*" element={<NotFound />} /> {/* Route cho trang không tìm thấy */}
         </Routes>

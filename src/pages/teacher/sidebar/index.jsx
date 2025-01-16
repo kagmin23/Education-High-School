@@ -1,4 +1,4 @@
-import { LogoutOutlined, PieChartOutlined, ReadOutlined, SignatureOutlined, SnippetsOutlined, SolutionOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, LogoutOutlined, PieChartOutlined, ReadOutlined, SignatureOutlined, SnippetsOutlined, SolutionOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Button, Menu } from 'antd';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,6 +27,9 @@ const SidebarTeacher = () => {
         </Menu.Item>
         <Menu.Item key="3" icon={<ReadOutlined />}>
           <Link to="/teacher/lesson-plan">Giáo án</Link>
+        </Menu.Item>
+        <Menu.Item key="3-1" icon={<AppstoreAddOutlined />}>
+          <Link to="/teacher/lesson-plan/exercises">Bài tập</Link>
         </Menu.Item>
         <Menu.Item key="4" icon={<SnippetsOutlined />}>
           <Link to="/teacher/document">Tài liệu</Link>
