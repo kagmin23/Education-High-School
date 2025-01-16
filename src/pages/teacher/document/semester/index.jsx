@@ -183,7 +183,7 @@ const Semester = () => {
           
         )}
       />
-      <Footer style={{ textAlign: 'center' }}>Created by KagMin © 2024</Footer>
+      <Footer style={{ textAlign: 'center' }}>Created by KagMin © 2025</Footer>
     </div>
   );
 };

@@ -260,7 +260,7 @@ const StudentList = () => {
             name="name"
             rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
           >
-            <Input />
+            <Input placeholder="Nhập họ tên" />
           </Form.Item>
 
           <Form.Item
@@ -287,13 +287,13 @@ const StudentList = () => {
             name="address"
             rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
           >
-            <Input />
+            <Input placeholder="Nhập địa chỉ" />
           </Form.Item>
 
           <Form.Item
             label="Hình ảnh"
             name="image"
-            rules={[{ required: true, message: 'Vui lòng nhập link hình ảnh!' }]}
+            rules={[{ required: false, message: 'Vui lòng nhập link hình ảnh!' }]}
           >
             <Input placeholder="Nhập link hình ảnh" />
           </Form.Item>
@@ -306,7 +306,7 @@ const StudentList = () => {
         </Form>
       </Modal>
       
-      <Footer style={{ textAlign: 'center' }}>Created by KagMin © 2024</Footer>
+      <Footer style={{ textAlign: 'center' }}>Created by KagMin © 2025</Footer>
     </div>
   );
 };

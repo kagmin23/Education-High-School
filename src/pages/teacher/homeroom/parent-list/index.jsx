@@ -285,7 +285,7 @@ const ParentList = () => {
       </Modal>
 
       <Footer style={{ textAlign: 'center' }}>
-        Created by KagMin © 2024
+        Created by KagMin © 2025
       </Footer>
     </div>
   );
