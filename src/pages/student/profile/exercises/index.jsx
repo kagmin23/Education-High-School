@@ -80,32 +80,38 @@ const ExercisesStudent = () => {
                                     <p className="mt-2 text-gray-700">{lesson.content}</p>
 
                                     {/* Khung bình luận */}
-                                    <div className="pt-4 mt-4 border-t-2 chat-box">
-                                        <h4 className="text-lg font-semibold">Bình luận:</h4>
-                                        <ul className="mt-2 comment-list">
-                                            {(lessonComments[lesson.id] && lessonComments[lesson.id].length > 0) ? (
-                                                lessonComments[lesson.id].map((comment, idx) => (
-                                                    <li key={idx} className="p-2 mb-2 bg-white border border-gray-200 rounded-md shadow-sm comment-item">
-                                                        <p className="text-gray-600">{comment}</p>
-                                                    </li>
-                                                ))
-                                            ) : (
-                                                <p className="text-gray-500">Chưa có bình luận nào.</p>
-                                            )}
-                                        </ul>
+                                    <div className="flex pt-4 mt-4 border-t-2 chat-box">
+                                        {/* Danh sách bình luận */}
+                                        <div className="flex-1 pr-4 overflow-y-auto max-h-64">
+                                            <h4 className="text-lg font-semibold">Bình luận:</h4>
+                                            <ul className="mt-2 comment-list">
+                                                {(lessonComments[lesson.id] && lessonComments[lesson.id].length > 0) ? (
+                                                    lessonComments[lesson.id].map((comment, idx) => (
+                                                        <li key={idx} className="p-2 mb-2 bg-white border border-gray-200 rounded-md shadow-sm comment-item">
+                                                            <p className="text-gray-600">{comment}</p>
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <p className="text-gray-500">Chưa có bình luận nào.</p>
+                                                )}
+                                            </ul>
+                                        </div>
+
                                         {/* Form để thêm bình luận */}
-                                        <textarea
-                                            className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                                            value={inputComments[lesson.id] || ""}
-                                            onChange={(e) => handleInputChange(lesson.id, e)}
-                                            placeholder="Viết bình luận..."
-                                        />
-                                        <button
-                                            className="px-4 py-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                                            onClick={() => handleCommentSubmit(lesson.id)}
-                                        >
-                                            Gửi bình luận
-                                        </button>
+                                        <div className="sticky top-0 p-4 ml-4 bg-white border border-gray-300 rounded-md w-80">
+                                            <textarea
+                                                className="w-full h-32 p-2 mt-2 border border-gray-300 rounded-md resize-none"
+                                                value={inputComments[lesson.id] || ""}
+                                                onChange={(e) => handleInputChange(lesson.id, e)}
+                                                placeholder="Viết bình luận..."
+                                            />
+                                            <button
+                                                className="w-full px-4 py-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                                                onClick={() => handleCommentSubmit(lesson.id)}
+                                            >
+                                                Gửi bình luận
+                                            </button>
+                                        </div>
                                     </div>
                                 </li>
                             ))}
