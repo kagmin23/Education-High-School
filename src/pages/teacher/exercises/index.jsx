@@ -4,8 +4,15 @@ const Exercises = () => {
     const [chapters, setChapters] = useState([]); // State lưu dữ liệu các chương và bài học
     const [lessonComments, setLessonComments] = useState({}); // State lưu bình luận cho từng bài học theo ID
     const [inputComments, setInputComments] = useState({}); // State lưu bình luận nhập vào cho từng bài học
+    const [currentTeacher, setCurrentTeacher] = useState(null); // State lưu thông tin người dùng đăng nhập
 
     useEffect(() => {
+        // Lấy dữ liệu người dùng đăng nhập từ localStorage
+        const user = localStorage.getItem('currentTeacher');
+        if (user) {
+            setCurrentTeacher(JSON.parse(user));
+        }
+
         // Lấy dữ liệu từ localStorage
         const storedChapters = localStorage.getItem('chapters');
         if (storedChapters) {
@@ -14,8 +21,8 @@ const Exercises = () => {
 
             // Tạo lessonComments từ dữ liệu đã lưu vào localStorage
             const comments = {};
-            parsedChapters.forEach(chapter => {
-                chapter.lessons.forEach(lesson => {
+            parsedChapters.forEach((chapter) => {
+                chapter.lessons.forEach((lesson) => {
                     if (lesson.comments) {
                         comments[lesson.id] = lesson.comments;
                     }
@@ -29,14 +36,19 @@ const Exercises = () => {
     const handleCommentSubmit = (lessonId) => {
         const newComment = inputComments[lessonId] || "";
         if (newComment.trim() !== "") {
+            const teacherName = currentTeacher ? currentTeacher.teachers : "Người dùng"; // Lấy tên của người dùng đã login
+    
+            // Tạo bình luận mới với tên người dùng và nội dung
+            const commentWithName = `${teacherName}: ${newComment}`;
+    
             // Cập nhật bình luận của bài học cụ thể
             const updatedLessonComments = {
                 ...lessonComments,
-                [lessonId]: [...(lessonComments[lessonId] || []), newComment],
+                [lessonId]: [...(lessonComments[lessonId] || []), commentWithName],
             };
             setLessonComments(updatedLessonComments); // Cập nhật state bình luận của bài học
             setInputComments({ ...inputComments, [lessonId]: "" }); // Xóa ô input sau khi gửi
-
+    
             // Cập nhật lại chapters và localStorage
             const updatedChapters = chapters.map(chapter => {
                 const updatedLessons = chapter.lessons.map(lesson => {
@@ -50,12 +62,12 @@ const Exercises = () => {
                 });
                 return { ...chapter, lessons: updatedLessons };
             });
-
+    
             setChapters(updatedChapters);
             localStorage.setItem('chapters', JSON.stringify(updatedChapters)); // Cập nhật lại localStorage
         }
     };
-
+    
     // Hàm thay đổi giá trị bình luận đang nhập vào của từng bài học
     const handleInputChange = (lessonId, event) => {
         setInputComments({
@@ -96,7 +108,6 @@ const Exercises = () => {
                                                 )}
                                             </ul>
                                         </div>
-
                                         {/* Form để thêm bình luận */}
                                         <div className="sticky top-0 p-4 ml-4 bg-white border border-gray-300 rounded-md w-80">
                                             <textarea

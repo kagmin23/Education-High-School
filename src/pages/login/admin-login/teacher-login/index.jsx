@@ -21,12 +21,15 @@ const LoginTeacher = () => {
     setTimeout(() => {
       setLoading(false);
       const { username, password } = values;
-
+  
       const accountFound = accountsTestTeacher.find(
         (account) => account.username === username && account.password === password
       );
-
+  
       if (accountFound) {
+        // Lưu thông tin user đã login vào localStorage
+        localStorage.setItem('currentTeacher', JSON.stringify(accountFound));
+  
         notification.success({
           message: 'Đăng nhập thành công!',
           description: 'Bạn đã đăng nhập thành công vào trang Quản lý dành cho Giáo viên.',
@@ -37,7 +40,7 @@ const LoginTeacher = () => {
       }
     }, 1000);
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
       <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
