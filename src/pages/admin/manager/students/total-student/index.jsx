@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Input, Modal, Select, Space, Table } from 'antd';
+import { Button, DatePicker, Form, Input, Modal, Popconfirm, Select, Space, Table } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import studentData from '../../../../../components/constant/studentData'; // Import dữ liệu cứng từ data.js
@@ -74,8 +74,8 @@ const StudentTotal = () => {
     setEditingStudent(null);
   };
 
-  // Delete student
-  const handleDelete = (key) => {
+  // Confirm before deleting student
+  const confirmDelete = (key) => {
     const updatedStudents = students.filter((student) => student.key !== key);
     setStudents(updatedStudents);
     saveToLocalStorage(updatedStudents);
@@ -132,7 +132,14 @@ const StudentTotal = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button icon={<EditOutlined />} onClick={() => showModal(record)}></Button>
-          <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.key)} danger></Button>
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xoá học sinh này?"
+            onConfirm={() => confirmDelete(record.key)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button icon={<DeleteOutlined />} danger />
+          </Popconfirm>
         </Space>
       ),
     },
