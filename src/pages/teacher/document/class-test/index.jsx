@@ -125,11 +125,8 @@ const ClassTest = () => {
             name="lesson"
             rules={[{ required: false, message: 'Vui lòng chọn bài học!' }]}
           >
-            <Select mode="multiple" placeholder="Chọn bài học">
-              <Option value="Bài học 1">Bài học 1</Option>
-              <Option value="Bài học 2">Bài học 2</Option>
-              <Option value="Bài học 3">Bài học 3</Option>
-            </Select>
+            <Input.TextArea mode="multiple" placeholder="Nhập bài học">
+            </Input.TextArea>
           </Form.Item>
 
           <Form.Item
@@ -137,11 +134,8 @@ const ClassTest = () => {
             name="class"
             rules={[{ required: false, message: 'Vui lòng chọn lớp!' }]}
           >
-            <Select mode="multiple" placeholder="Chọn lớp">
-              <Option value="Lớp 1">Lớp 1</Option>
-              <Option value="Lớp 2">Lớp 2</Option>
-              <Option value="Lớp 3">Lớp 3</Option>
-            </Select>
+            <Input.TextArea mode="multiple" placeholder="Chọn lớp">
+            </Input.TextArea>
           </Form.Item>
 
           <Form.Item
