@@ -1,130 +1,244 @@
-import { CloudDownloadOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Collapse, Table, message } from 'antd';
+import { CloudDownloadOutlined } from '@ant-design/icons';
+import { Card, List, message } from 'antd';
+import { ArrowRight, Lock, Trash2, Upload } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-const { Panel } = Collapse;
-
 const TestOnline = () => {
-  const [folders, setFolders] = useState([]); // Initialize as an array
-  const [openedLink, setOpenedLink] = useState(false); // Track the clicked link state
-  const [userClass, setUserClass] = useState(null); // Store the class of the logged-in user
+  const [folders, setFolders] = useState([]);
+  const [completedTests, setCompletedTests] = useState({});
+  const [userClass, setUserClass] = useState(null);
+  const [submissions, setSubmissions] = useState({});
 
-  // Load user data and folder data from localStorage
   useEffect(() => {
-    try {
-      // Load user information (e.g., class) from localStorage
-      const storedUser = localStorage.getItem('loggedInUser');
-      const parsedUser = storedUser ? JSON.parse(storedUser) : {};
-      const userClass = parsedUser.class || null; // Assuming `class` is the key for user's class
-      setUserClass(userClass);
+    const storedUser = localStorage.getItem('loggedInUser');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUserClass(parsedUser.class);
 
-      // Load folder data
-      const storedData = localStorage.getItem('onlineTestByClass');
-      const parsedData = storedData ? JSON.parse(storedData) : {};
+      const storedCompleted = localStorage.getItem(`completedTests_${parsedUser.class}`);
+      if (storedCompleted) {
+        setCompletedTests(JSON.parse(storedCompleted));
+      }
 
-      // Transform object to array of folder objects and filter by userClass
-      const transformedData = Object.entries(parsedData)
-        .filter(([key]) => key === userClass) // Filter by user's class
-        .map(([key, value]) => ({
-          name: key, // Use the key (e.g., "12A1", "12A3") as folder name
-          tests: value, // Corresponding array of tests
-        }));
-
-      setFolders(transformedData);
-    } catch (error) {
-      console.error('Error loading or parsing data:', error);
-      setFolders([]); // Default to empty array on error
+      const storedSubmissions = localStorage.getItem(`submissions_${parsedUser.class}`);
+      if (storedSubmissions) {
+        setSubmissions(JSON.parse(storedSubmissions));
+      }
     }
-  }, []);
 
-  // Define columns for the Ant Design Table
-  const columns = [
-    {
-      title: 'Tên bài kiểm tra',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Thời gian bắt đầu',
-      dataIndex: 'startTime',
-      key: 'startTime',
-      align: 'center',
-    },
-    {
-      title: 'Thời gian kết thúc',
-      dataIndex: 'endTime',
-      key: 'endTime',
-      align: 'center',
-    },
-    {
-      title: 'Link bài kiểm tra',
-      dataIndex: 'link',
-      key: 'link',
-      align: 'center',
-      render: (text, record) => (
-        text ? (
-          <a
-            href={text}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => {
-              if (!openedLink && record.id !== folders[0]?.tests[0]?.id) {
-                e.preventDefault(); // Prevent default behavior if the test is locked
-                message.warning('Hãy hoàn thành bài kiểm tra phía trước.');
-              } else {
-                setOpenedLink(true); // Mark the test as opened
-              }
-            }}
-          >
-            Đi tới bài kiểm tra <DoubleRightOutlined />
-          </a>
-        ) : 'Không có link'
-      ),
-    },
-    {
-      title: 'File',
-      dataIndex: 'file',
-      key: 'file',
-      align: 'center',
-      render: (file) => (
-        file && file.url ? (
-          <a
-            href={file.url}
-            target="_blank"
-            download={file.name}
-            rel="noopener noreferrer"
-          >
-            Tải xuống {file.name} <CloudDownloadOutlined />
-          </a>
-        ) : 'Không có file'
-      ),
-    },
-    {
-      title: 'Thao tác',
-      dataIndex: 'uploadFile',
-      key: 'uploadFile',
-      align: 'center',
-    },
-  ];
+    const storedData = localStorage.getItem('onlineTestByClass');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData[userClass]) {
+        setFolders(parsedData[userClass]);
+      }
+    }
+  }, [userClass]);
+
+  const handleTestStart = (testId) => {
+    const updatedCompleted = { ...completedTests, [testId]: true };
+    setCompletedTests(updatedCompleted);
+    localStorage.setItem(`completedTests_${userClass}`, JSON.stringify(updatedCompleted));
+  };
+
+  const isTestAvailable = (test, index, folderTests) => {
+    if (index === 0) return true;
+    const previousTest = folderTests[index - 1];
+    return completedTests[previousTest.id];
+  };
+
+  const handleFileUpload = (testId, file) => {
+    const fileURL = URL.createObjectURL(file);
+    
+    // Get existing submissions for this test or initialize empty array
+    const existingTestSubmissions = submissions[testId]?.files || [];
+    
+    // Create new submission
+    const newSubmission = {
+      fileName: file.name,
+      fileURL: fileURL,
+      uploadTime: new Date().toLocaleString(),
+      id: Date.now() // Unique ID for each submission
+    };
+
+    // Update submissions with new array
+    const updatedSubmissions = {
+      ...submissions,
+      [testId]: {
+        files: [...existingTestSubmissions, newSubmission],
+        testId: testId
+      }
+    };
+    
+    setSubmissions(updatedSubmissions);
+    localStorage.setItem(`submissions_${userClass}`, JSON.stringify(updatedSubmissions));
+    message.success('Nộp bài thành công!');
+    return false;
+  };
+
+  const handleDeleteSubmission = (testId, submissionId) => {
+    const updatedSubmissions = {
+      ...submissions,
+      [testId]: {
+        ...submissions[testId],
+        files: submissions[testId].files.filter(file => file.id !== submissionId)
+      }
+    };
+
+    // If no files left, remove the entire test entry
+    if (updatedSubmissions[testId].files.length === 0) {
+      delete updatedSubmissions[testId];
+    }
+
+    setSubmissions(updatedSubmissions);
+    localStorage.setItem(`submissions_${userClass}`, JSON.stringify(updatedSubmissions));
+    message.success('Đã xóa bài nộp!');
+  };
+
+  const formatTime = (time) => {
+    return time ? new Date(`2024-01-01T${time}`).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    }) : 'N/A';
+  };
 
   return (
-    <div>
+    <div className="p-4 space-y-4">
+      <Card className="mb-4">
+        <h2 className="text-lg font-semibold">Bài kiểm tra trực tuyến - {userClass}</h2>
+      </Card>
+
       {folders.length > 0 ? (
-        <Collapse accordion>
+        <div className="space-y-4">
           {folders.map((folder) => (
-            <Panel header={folder.name} key={folder.name}>
-              <Table
-                dataSource={folder.tests}
-                columns={columns}
-                rowKey="id"
-                pagination={false}
-                bordered
-              />
-            </Panel>
+            <Card key={folder.id} className="w-full">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold">{folder.name}</h3>
+              </div>
+              <div className="space-y-4">
+                {folder.tests.map((test, index) => (
+                  <div
+                    key={test.id}
+                    className="border rounded-lg"
+                  >
+                    <div className="flex items-center justify-between p-4 bg-white">
+                      <div className="flex-1">
+                        <h3 className="font-medium">{test.name}</h3>
+                        <div className="mt-1 text-sm text-gray-500">
+                          <span>Bắt đầu: {formatTime(test.startTime)}</span>
+                          <span className="mx-2">|</span>
+                          <span>Kết thúc: {formatTime(test.endTime)}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-4">
+                        {test.file && (
+                          <a
+                            href={test.file.url}
+                            download={test.file.name}
+                            className="flex items-center text-blue-600 hover:text-blue-800"
+                          >
+                            <CloudDownloadOutlined className="w-4 h-4 mr-1" />
+                            Tải file
+                          </a>
+                        )}
+
+                        {test.link && (
+                          <a
+                            href={isTestAvailable(test, index, folder.tests) ? test.link : '#'}
+                            onClick={(e) => {
+                              if (!isTestAvailable(test, index, folder.tests)) {
+                                e.preventDefault();
+                                alert('Vui lòng hoàn thành các bài kiểm tra trước.');
+                              } else {
+                                handleTestStart(test.id);
+                              }
+                            }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center ${isTestAvailable(test, index, folder.tests)
+                              ? 'text-green-600 hover:text-green-800'
+                              : 'text-gray-400 cursor-not-allowed'
+                            }`}
+                          >
+                            {isTestAvailable(test, index, folder.tests) ? (
+                              <ArrowRight className="w-4 h-4 mr-1" />
+                            ) : (
+                              <Lock className="w-4 h-4 mr-1" />
+                            )}
+                            Làm bài
+                          </a>
+                        )}
+
+                        <label className="flex items-center cursor-pointer">
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => {
+                              if (e.target.files?.length) {
+                                handleFileUpload(test.id, e.target.files[0]);
+                              }
+                            }}
+                            accept=".pdf,.doc,.docx,.jpg,.png"
+                          />
+                          <div className="flex items-center text-blue-600 hover:text-blue-800">
+                            <Upload className="w-4 h-4 mr-1" />
+                            Nộp bài
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Submissions List */}
+                    {submissions[test.id]?.files?.length > 0 && (
+                      <div className="border-t">
+                        <List
+                          size="small"
+                          dataSource={submissions[test.id].files}
+                          renderItem={item => (
+                            <List.Item
+                              className="flex items-center px-4"
+                              actions={[
+                                <button
+                                  key="delete"
+                                  onClick={() => handleDeleteSubmission(test.id, item.id)}
+                                  className="text-red-500 hover:text-red-700"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              ]}
+                            >
+                              <div className="flex-1">
+                                <a 
+                                  href={item.fileURL}
+                                  download={item.fileName}
+                                  className="text-blue-600 hover:text-blue-800"
+                                >
+                                  {item.fileName}
+                                </a>
+                                <div className="text-xs text-gray-500">
+                                  Đã nộp: {item.uploadTime}
+                                </div>
+                              </div>
+                            </List.Item>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
           ))}
-        </Collapse>
+        </div>
       ) : (
-        <p>{userClass ? 'Không có dữ liệu nào cho lớp của bạn.' : 'Không có thông tin lớp học.'}</p>
+        <Card>
+          <div className="p-4">
+            <p className="text-center text-gray-500">
+              {userClass ? 'Không có bài kiểm tra nào cho lớp của bạn.' : 'Vui lòng đăng nhập để xem bài kiểm tra.'}
+            </p>
+          </div>
+        </Card>
       )}
     </div>
   );

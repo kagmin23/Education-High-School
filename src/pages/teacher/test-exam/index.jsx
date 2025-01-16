@@ -1,4 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons';
+import { DownCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Collapse, Form, Input, List, Modal, Select, TimePicker, Upload } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -250,6 +250,7 @@ const TestExam = () => {
                       Đi tới bài kiểm tra
                     </a>
                   )}
+                  <DownCircleOutlined />
                 </List.Item>
               )}
             />
