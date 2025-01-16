@@ -5,7 +5,7 @@ const { Option } = Select;
 
 const StudentClass = () => {
   const [students, setStudents] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(''); // Thay đổi giá trị mặc định
+  const [selectedClass, setSelectedClass] = useState('12A1'); // Mặc định chọn lớp 12A1
   const [selectedTeacher, setSelectedTeacher] = useState('');
   const [classes, setClasses] = useState([]);
 
@@ -75,29 +75,25 @@ const StudentClass = () => {
       {/* Bộ lọc lớp */}
       <div className="py-4">
         <Select
-          style={{ width: 120, marginRight: 16 }}
-          placeholder="Chọn lớp"
+          value={selectedClass}
           onChange={handleClassChange}
-          value={selectedClass || undefined} // Đảm bảo không truyền null
+          style={{ width: 200 }}
         >
-          <Option value="">Tất cả</Option>
-          {classes.map((classItem, index) => (
-            <Option key={index} value={classItem}>
-              {classItem}
+          {classes.map((className) => (
+            <Option key={className} value={className}>
+              {className}
             </Option>
           ))}
         </Select>
 
         {/* Bộ lọc giáo viên */}
         <Select
-          style={{ width: 120, marginRight: 16 }}
-          placeholder="Chọn giáo viên"
+          value={selectedTeacher}
           onChange={handleTeacherChange}
-          value={selectedTeacher || undefined} // Đảm bảo không truyền null
+          style={{ width: 200, marginLeft: '16px' }}
         >
-          <Option value="">Tất cả</Option>
-          {uniqueTeachers.map((teacher, index) => (
-            <Option key={index} value={teacher}>
+          {uniqueTeachers.map((teacher) => (
+            <Option key={teacher} value={teacher}>
               {teacher}
             </Option>
           ))}

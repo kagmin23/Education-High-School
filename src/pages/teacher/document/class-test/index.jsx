@@ -123,7 +123,7 @@ const ClassTest = () => {
           <Form.Item
             label="Bài học"
             name="lesson"
-            rules={[{ required: true, message: 'Vui lòng chọn bài học!' }]}
+            rules={[{ required: false, message: 'Vui lòng chọn bài học!' }]}
           >
             <Select mode="multiple" placeholder="Chọn bài học">
               <Option value="Bài học 1">Bài học 1</Option>
@@ -135,7 +135,7 @@ const ClassTest = () => {
           <Form.Item
             label="Lớp"
             name="class"
-            rules={[{ required: true, message: 'Vui lòng chọn lớp!' }]}
+            rules={[{ required: false, message: 'Vui lòng chọn lớp!' }]}
           >
             <Select mode="multiple" placeholder="Chọn lớp">
               <Option value="Lớp 1">Lớp 1</Option>
