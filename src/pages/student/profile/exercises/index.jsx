@@ -4,8 +4,14 @@ const ExercisesStudent = () => {
     const [chapters, setChapters] = useState([]); // State lưu dữ liệu các chương và bài học
     const [lessonComments, setLessonComments] = useState({}); // State lưu bình luận cho từng bài học theo ID
     const [inputComments, setInputComments] = useState({}); // State lưu bình luận nhập vào cho từng bài học
+    const [loggedInUser, setLoggedInUser] = useState(null); // State lưu thông tin người dùng đăng nhập
 
     useEffect(() => {
+        // Lấy dữ liệu người dùng đăng nhập từ localStorage
+        const user = localStorage.getItem('loggedInUser');
+        if (user) {
+            setLoggedInUser(JSON.parse(user));
+        }
         // Lấy dữ liệu từ localStorage
         const storedChapters = localStorage.getItem('chapters');
         if (storedChapters) {
@@ -28,11 +34,14 @@ const ExercisesStudent = () => {
     // Hàm để thêm bình luận vào bài học
     const handleCommentSubmit = (lessonId) => {
         const newComment = inputComments[lessonId] || "";
-        if (newComment.trim() !== "") {
+        if (newComment.trim() !== "" && loggedInUser) {
+            // Tạo bình luận có tên người dùng
+            const commentWithUser = `${loggedInUser.fullName}: ${newComment}`;
+
             // Cập nhật bình luận của bài học cụ thể
             const updatedLessonComments = {
                 ...lessonComments,
-                [lessonId]: [...(lessonComments[lessonId] || []), newComment],
+                [lessonId]: [...(lessonComments[lessonId] || []), commentWithUser],
             };
             setLessonComments(updatedLessonComments); // Cập nhật state bình luận của bài học
             setInputComments({ ...inputComments, [lessonId]: "" }); // Xóa ô input sau khi gửi
