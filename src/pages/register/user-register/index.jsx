@@ -2,10 +2,9 @@ import {
   ArrowLeftOutlined,
   LockOutlined,
   PhoneOutlined,
-  PlusOutlined,
   UserOutlined
 } from '@ant-design/icons';
-import { Button, Col, DatePicker, Form, Input, Row, Select, Upload, notification } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Row, Select, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -188,7 +187,7 @@ const RegisterStudent = () => {
                   placeholder="Chọn ngày sinh"
                 />
               </Form.Item>
-              <Form.Item
+              {/* <Form.Item
                 label="Hình ảnh"
                 name="image"
               >
@@ -206,7 +205,7 @@ const RegisterStudent = () => {
                     </div>
                   )}
                 </Upload>
-              </Form.Item>
+              </Form.Item> */}
             </Col>
 
             <Col xs={24} sm={12}>
