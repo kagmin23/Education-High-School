@@ -44,12 +44,6 @@ const StudentClass = () => {
     }
   };
 
-  // Save data to localStorage
-  const saveToLocalStorage = (data) => {
-    localStorage.setItem('students', JSON.stringify(data));
-    localStorage.setItem('totalStudents', data.length); // Save total number of students
-  };
-
   // Show modal for adding/editing student
   const showModal = (student = null) => {
     setEditingStudent(student);

@@ -1,37 +1,51 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Collapse, Form, Input, List, Modal, TimePicker, Upload } from 'antd';
-import moment from 'moment';
+import { Button, Collapse, Form, Input, List, Modal, Select, TimePicker, Upload } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const { Panel } = Collapse;
+const { Option } = Select;
 
 const TestExam = () => {
-  const [folders, setFolders] = useState([]);
+  const [foldersByClass, setFoldersByClass] = useState({}); // Store folders for each class
   const [isFolderModalVisible, setIsFolderModalVisible] = useState(false);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
-  const [isEditFolderModalVisible, setIsEditFolderModalVisible] = useState(false); // For editing folder
+  const [isEditFolderModalVisible, setIsEditFolderModalVisible] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [form] = Form.useForm();
-  const [uploadedFile, setUploadedFile] = useState(null); // State to store uploaded file
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [selectedClass, setSelectedClass] = useState('12A1');
+  const [classes, setClasses] = useState([]);
 
-  // Load data from localStorage when the component mounts
+  // Load classes from localStorage
   useEffect(() => {
-    const storedData = localStorage.getItem('onlineTest');
+    const storedClasses = localStorage.getItem('classes');
+    if (storedClasses) {
+      setClasses(JSON.parse(storedClasses));
+    }
+  }, []);
+
+  // Load folders data for all classes from localStorage
+  useEffect(() => {
+    const storedData = localStorage.getItem('onlineTestByClass');
     if (storedData) {
-      setFolders(JSON.parse(storedData)); // Parse and load data if available
+      setFoldersByClass(JSON.parse(storedData));
     }
-  }, []); // Run only once when the component mounts
+  }, []);
 
-  // Save data to localStorage whenever folders change
+  // Save folders data whenever it changes
   useEffect(() => {
-    if (folders.length > 0) {
-      localStorage.setItem('onlineTest', JSON.stringify(folders)); // Save folders to localStorage
+    if (Object.keys(foldersByClass).length > 0) {
+      localStorage.setItem('onlineTestByClass', JSON.stringify(foldersByClass));
     }
-  }, [folders]); // This will run every time folders change
+  }, [foldersByClass]);
+
+  const getCurrentClassFolders = () => {
+    return foldersByClass[selectedClass] || [];
+  };
 
   const openFolderModal = () => {
     form.resetFields();
-    setUploadedFile(null); // Reset file state
+    setUploadedFile(null);
     setIsFolderModalVisible(true);
   };
 
@@ -43,11 +57,16 @@ const TestExam = () => {
         name: values.name,
         tests: [],
       };
-      setFolders((prev) => {
-        const updatedFolders = [...prev, newFolder];
-        localStorage.setItem('onlineTest', JSON.stringify(updatedFolders)); // Save new state to localStorage
+
+      setFoldersByClass(prev => {
+        const updatedFolders = {
+          ...prev,
+          [selectedClass]: [...(prev[selectedClass] || []), newFolder]
+        };
+        localStorage.setItem('onlineTestByClass', JSON.stringify(updatedFolders));
         return updatedFolders;
       });
+
       setIsFolderModalVisible(false);
     } catch (error) {
       console.log('Validation Failed:', error);
@@ -68,22 +87,25 @@ const TestExam = () => {
         name: values.name,
         startTime: values.startTime.format('HH:mm'),
         endTime: values.endTime.format('HH:mm'),
-        file: uploadedFile, // Lưu cả tên và URL của file
+        file: uploadedFile,
         link: values.link,
         completed: false,
-        locked: false, // Start with the test unlocked
+        locked: false,
       };
 
-      setFolders((prev) => {
-        const updatedFolders = prev.map((folder) =>
-          folder.id === selectedFolderId
-            ? {
-              ...folder,
-              tests: [...folder.tests, newTest],
-            }
-            : folder
-        );
-        localStorage.setItem('onlineTest', JSON.stringify(updatedFolders)); // Save updated state to localStorage
+      setFoldersByClass(prev => {
+        const updatedFolders = {
+          ...prev,
+          [selectedClass]: prev[selectedClass].map(folder =>
+            folder.id === selectedFolderId
+              ? {
+                ...folder,
+                tests: [...folder.tests, newTest],
+              }
+              : folder
+          )
+        };
+        localStorage.setItem('onlineTestByClass', JSON.stringify(updatedFolders));
         return updatedFolders;
       });
 
@@ -93,59 +115,37 @@ const TestExam = () => {
     }
   };
 
-  // Function to check if the test is locked
-  const checkIfLocked = (test) => {
-    const currentTime = moment();
-    return moment(test.endTime, 'HH:mm').isBefore(currentTime); // Check if the current time is after endTime
-  };
-
-  const handleCompleteTest = (folderId, testId) => {
-    setFolders((prev) => {
-      const updatedFolders = prev.map((folder) =>
-        folder.id === folderId
-          ? {
-            ...folder,
-            tests: folder.tests.map((test) =>
-              test.id === testId
-                ? { ...test, completed: true, locked: true } // Lock the test when completed
-                : test
-            ),
-          }
-          : folder
-      );
-      localStorage.setItem('onlineTest', JSON.stringify(updatedFolders)); // Save updated state to localStorage
-      return updatedFolders;
-    });
-  };
-
-  // Function to delete a folder
   const handleDeleteFolder = (folderId) => {
-    setFolders((prev) => {
-      const updatedFolders = prev.filter((folder) => folder.id !== folderId);
-      localStorage.setItem('onlineTest', JSON.stringify(updatedFolders)); // Save updated state to localStorage
+    setFoldersByClass(prev => {
+      const updatedFolders = {
+        ...prev,
+        [selectedClass]: prev[selectedClass].filter(folder => folder.id !== folderId)
+      };
+      localStorage.setItem('onlineTestByClass', JSON.stringify(updatedFolders));
       return updatedFolders;
     });
   };
 
-  // Function to open edit folder modal
   const openEditFolderModal = (folderId) => {
     setSelectedFolderId(folderId);
-    const folderToEdit = folders.find((folder) => folder.id === folderId);
+    const folderToEdit = getCurrentClassFolders().find(folder => folder.id === folderId);
     form.setFieldsValue({ name: folderToEdit?.name });
     setIsEditFolderModalVisible(true);
   };
 
-  // Function to handle folder edit
   const handleEditFolder = async () => {
     try {
       const values = await form.validateFields();
-      setFolders((prev) => {
-        const updatedFolders = prev.map((folder) =>
-          folder.id === selectedFolderId
-            ? { ...folder, name: values.name }
-            : folder
-        );
-        localStorage.setItem('onlineTest', JSON.stringify(updatedFolders)); // Save updated state to localStorage
+      setFoldersByClass(prev => {
+        const updatedFolders = {
+          ...prev,
+          [selectedClass]: prev[selectedClass].map(folder =>
+            folder.id === selectedFolderId
+              ? { ...folder, name: values.name }
+              : folder
+          )
+        };
+        localStorage.setItem('onlineTestByClass', JSON.stringify(updatedFolders));
         return updatedFolders;
       });
       setIsEditFolderModalVisible(false);
@@ -154,43 +154,66 @@ const TestExam = () => {
     }
   };
 
+  const handleClassChange = (value) => {
+    setSelectedClass(value);
+  };
+
   const handleUpload = (file) => {
-    const fileURL = URL.createObjectURL(file); // Tạo URL từ file
-    setUploadedFile({ name: file.name, url: fileURL }); // Lưu cả tên và URL
-    return false; // Ngăn không cho upload tự động
+    const fileURL = URL.createObjectURL(file);
+    setUploadedFile({ name: file.name, url: fileURL });
+    return false;
   };
 
   return (
     <div className="p-4">
-      <h2>Quản lý Thư mục và Bài kiểm tra</h2>
-      <Button type="primary" onClick={openFolderModal} className="my-4">
-        Thêm Thư mục
-      </Button>
+      <h2 className='mb-4'>Quản lý Thư mục và Bài kiểm tra</h2>
+      <div className="flex flex-row justify-between">
+        <Select
+          placeholder="Chọn lớp"
+          value={selectedClass}
+          onChange={handleClassChange}
+          style={{ width: 200, marginBottom: 16 }}
+        >
+          {classes.map((classItem) => (
+            <Option key={classItem.key} value={classItem.name}>
+              {classItem.name}
+            </Option>
+          ))}
+        </Select>
+        <Button type="primary" onClick={openFolderModal}>
+          Thêm Thư mục
+        </Button>
+      </div>
       <Collapse accordion>
-        {folders.map((folder) => (
-          <Panel header={<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{folder.name}</span>
-            <div>
-              <Button
-                type="link"
-                onClick={() => openEditFolderModal(folder.id)}
-                className="mr-2"
-              >
-                Sửa
-              </Button>
-              <Button
-                type="link"
-                onClick={() => handleDeleteFolder(folder.id)}
-                danger
-              >
-                Xoá
-              </Button>
-            </div>
-          </div>} key={folder.id}>
+        {getCurrentClassFolders().map((folder) => (
+          <Panel 
+            header={
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>{folder.name}</span>
+                <div>
+                  <Button
+                    type="link"
+                    onClick={() => openEditFolderModal(folder.id)}
+                    className="mr-2"
+                  >
+                    Sửa
+                  </Button>
+                  <Button
+                    type="link"
+                    onClick={() => handleDeleteFolder(folder.id)}
+                    danger
+                  >
+                    Xoá
+                  </Button>
+                </div>
+              </div>
+            } 
+            key={folder.id}
+          >
             <List
               bordered
               dataSource={folder.tests}
-              renderItem={(test, index) => (
+              renderItem={(test) => (
                 <List.Item className='flex flex-row justify-between'>
                   <div className='w-36'>
                     <span>{test.name}</span>
@@ -205,19 +228,18 @@ const TestExam = () => {
                     <span>File: </span>
                     {test.file ? (
                       <a
-                        href={test.file.url} // URL của file
-                        download={test.file.name} // Tên file khi tải xuống
+                        href={test.file.url}
+                        download={test.file.name}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: 'blue' }}
                       >
-                        {test.file.name} {/* Tên file hiển thị */}
+                        {test.file.name}
                       </a>
                     ) : (
                       <span>Không có file</span>
                     )}
                   </div>
-                  {/* Link Button */}
                   {test.link && (
                     <a
                       href={test.link}
@@ -280,7 +302,7 @@ const TestExam = () => {
 
       {/* Test Modal */}
       <Modal
-        title="Thêm Bài kiểm tra"
+        title="Thêm Bài Kiểm Tra"
         visible={isTestModalVisible}
         onOk={handleAddTest}
         onCancel={() => setIsTestModalVisible(false)}
@@ -288,39 +310,54 @@ const TestExam = () => {
         <Form form={form} layout="vertical">
           <Form.Item
             name="name"
-            label="Tên Bài kiểm tra"
+            label="Tên Bài Kiểm Tra"
             rules={[{ required: true, message: 'Vui lòng nhập tên bài kiểm tra!' }]}
           >
             <Input placeholder="Nhập tên bài kiểm tra" />
           </Form.Item>
-          <div className='flex flex-row justify-between'>
-            <Form.Item
-              name="startTime"
-              label="Thời gian bắt đầu"
-              rules={[{ required: true, message: 'Vui lòng chọn thời gian bắt đầu!' }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-            <Form.Item
-              name="endTime"
-              label="Thời gian kết thúc"
-              rules={[{ required: true, message: 'Vui lòng chọn thời gian kết thúc!' }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-          </div>
+
           <Form.Item
-            name="link"
-            label="Link bài kiểm tra"
-            rules={[{ required: false, message: 'Vui lòng nhập link bài kiểm tra!' }]}
+            name="startTime"
+            label="Giờ Bắt đầu"
+            rules={[{ required: true, message: 'Vui lòng chọn giờ bắt đầu!' }]}
           >
-            <Input placeholder="Nhập link bài kiểm tra" />
+            <TimePicker format="HH:mm" />
           </Form.Item>
-          <Form.Item label="Tải lên File">
-            <Upload beforeUpload={handleUpload} maxCount={1}>
-              <Button icon={<UploadOutlined />}>Chọn File</Button>
+
+          <Form.Item
+            name="endTime"
+            label="Giờ Kết thúc"
+            rules={[{ required: true, message: 'Vui lòng chọn giờ kết thúc!' }]}
+          >
+            <TimePicker format="HH:mm" />
+          </Form.Item>
+
+          <Form.Item name="file" label="Tải lên File">
+            <Upload
+              beforeUpload={handleUpload}
+              showUploadList={false}
+              accept=".pdf,.doc,.docx,.ppt,.pptx"
+            >
+              <Button icon={<UploadOutlined />}>Tải lên</Button>
             </Upload>
-            {uploadedFile && <div>Tệp đã chọn: {uploadedFile.name}</div>}
+            {uploadedFile && (
+              <div>
+                <strong>{uploadedFile.name}</strong>
+                <a
+                  href={uploadedFile.url}
+                  download={uploadedFile.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'blue', marginLeft: '10px' }}
+                >
+                  Tải xuống
+                </a>
+              </div>
+            )}
+          </Form.Item>
+
+          <Form.Item name="link" label="Link Bài Kiểm Tra">
+            <Input placeholder="Nhập đường dẫn bài kiểm tra" />
           </Form.Item>
         </Form>
       </Modal>
