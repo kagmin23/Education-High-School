@@ -2,6 +2,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Form, Input, Modal, Select, Space, Table } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import studentData from '../../../../../components/constant/studentData'; // Import dữ liệu cứng từ data.js
 
 const { Option } = Select;
 
@@ -11,12 +12,17 @@ const StudentTotal = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
 
-  // Load data from localStorage when the component mounts
+  // Load data from localStorage and combine with hardcoded data
   useEffect(() => {
     const storedStudents = localStorage.getItem('students');
+    let studentsList = [];
+
     if (storedStudents) {
-      setStudents(JSON.parse(storedStudents));
+      studentsList = JSON.parse(storedStudents);
     }
+
+    // Kết hợp dữ liệu cứng vào students
+    setStudents([...studentData, ...studentsList]);
 
     const storedClasses = localStorage.getItem('classes');
     if (storedClasses) {
