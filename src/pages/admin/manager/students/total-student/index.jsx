@@ -159,7 +159,7 @@ const StudentTotal = () => {
           <Form.Item
             name="image"
             label="Hình ảnh"
-            rules={[{ required: true, message: 'Vui lòng nhập link hình ảnh!' }]}
+            rules={[{ required: false, message: 'Vui lòng nhập link hình ảnh!' }]}
           >
             <Input placeholder="Link hình ảnh" />
           </Form.Item>
@@ -190,7 +190,7 @@ const StudentTotal = () => {
           <Form.Item
             name="address"
             label="Địa chỉ"
-            rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
+            rules={[{ required: false, message: 'Vui lòng nhập địa chỉ!' }]}
           >
             <Input />
           </Form.Item>
