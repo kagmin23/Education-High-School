@@ -52,13 +52,13 @@ const RegisterStudent = () => {
 
   const onFinish = (values) => {
     setLoading(true);
-
+  
     setTimeout(() => {
       try {
-        // Kiểm tra username đã tồn tại chưa
+        // Lấy danh sách người dùng hiện tại từ localStorage
         const existingUsers = JSON.parse(localStorage.getItem('userAccountsData')) || [];
         const isUsernameTaken = existingUsers.some(user => user.username === values.username);
-
+  
         if (isUsernameTaken) {
           toast.error('Đăng ký thất bại!', {
             description: 'Tên đăng nhập đã được sử dụng. Vui lòng chọn tên khác.',
@@ -68,30 +68,35 @@ const RegisterStudent = () => {
           setLoading(false);
           return;
         }
-
+  
+        // Tìm tên lớp tương ứng từ ID
+        const selectedClass = classes.find(classItem => classItem.value === values.class);
+        const className = selectedClass ? selectedClass.label : '';
+  
+        // Dữ liệu người dùng
         const userData = {
           username: values.username,
-          fullName: values.fullName, // Added full name field
-          gender: values.gender,       // Added gender field
+          fullName: values.fullName,
+          gender: values.gender,
           phone: values.phone_number,
           dateOfBirth: values.date_of_birth.format('YYYY-MM-DD'),
-          classId: values.grade,
+          class: className, // Lưu tên lớp thay vì ID
           password: values.password,
           role: 'student',
           image: imageUrl
         };
-
-        // Thêm user mới vào mảng
+  
+        // Thêm người dùng mới vào danh sách
         existingUsers.push(userData);
-
-        // Lưu lại vào localStorage
+  
+        // Lưu vào localStorage
         localStorage.setItem('userAccountsData', JSON.stringify(existingUsers));
-
+  
         notification.success({
           message: 'Đăng ký thành công!',
           description: 'Đăng ký tài khoản Học sinh thành công. Vui lòng đăng nhập để truy cập.',
         });
-
+  
         navigate('/login/student');
       } catch (error) {
         notification.error({
@@ -99,11 +104,11 @@ const RegisterStudent = () => {
           description: 'Đã có lỗi xảy ra trong quá trình đăng ký. Vui lòng thử lại sau.',
         });
       }
-
+  
       setLoading(false);
     }, 1000);
   };
-
+  
   const handleImageUpload = (file) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -260,7 +265,7 @@ const RegisterStudent = () => {
 
               <Form.Item
                 label="Lớp"
-                name="grade"
+                name="class"
                 rules={[{ required: true, message: 'Vui lòng chọn lớp của bạn!' }]}
               >
                 <Select
