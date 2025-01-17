@@ -15,6 +15,30 @@ const TestExam = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedClass, setSelectedClass] = useState('12A1');
   const [classes, setClasses] = useState([]);
+  const [openFolderTests, setOpenFolderTests] = useState({}); // State lưu trạng thái mở/đóng các bài kiểm tra
+  const [completedTests, setCompletedTests] = useState({});
+  const [userClass, setUserClass] = useState(null);
+  const [submissions, setSubmissions] = useState({});
+
+  useEffect(() => {
+    const storedCompleted = localStorage.getItem(`completedTests_${parsedUser.class}`);
+    if (storedCompleted) {
+      setCompletedTests(JSON.parse(storedCompleted));
+    }
+
+    const storedSubmissions = localStorage.getItem(`submissions_${parsedUser.class}`);
+    if (storedSubmissions) {
+      setSubmissions(JSON.parse(storedSubmissions));
+    }
+
+    const storedData = localStorage.getItem('onlineTestByClass');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData[userClass]) {
+        setFolders(parsedData[userClass]);
+      }
+    }
+  }, [userClass]);
 
   // Load classes from localStorage
   useEffect(() => {
@@ -164,6 +188,13 @@ const TestExam = () => {
     return false;
   };
 
+  const handleToggleTests = (folderId) => {
+    setOpenFolderTests(prevState => ({
+      ...prevState,
+      [folderId]: !prevState[folderId], // Toggle trạng thái mở/đóng
+    }));
+  };
+
   return (
     <div className="p-4">
       <h2 className='mb-4'>Quản lý Thư mục và Bài kiểm tra</h2>
@@ -186,7 +217,7 @@ const TestExam = () => {
       </div>
       <Collapse accordion>
         {getCurrentClassFolders().map((folder) => (
-          <Panel 
+          <Panel
             header={
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>{folder.name}</span>
@@ -207,7 +238,7 @@ const TestExam = () => {
                   </Button>
                 </div>
               </div>
-            } 
+            }
             key={folder.id}
           >
             <List
@@ -250,10 +281,22 @@ const TestExam = () => {
                       Đi tới bài kiểm tra
                     </a>
                   )}
-                  <DownCircleOutlined />
+                  <DownCircleOutlined onClick={() => handleToggleTests(folder.id)} />
                 </List.Item>
               )}
             />
+            {openFolderTests[folder.id] && (
+              <div className='p-5'>
+                <h3>Danh sách bài kiểm tra học sinh</h3>
+                <List
+                  bordered
+                  dataSource={folder.tests}  // Lấy danh sách bài kiểm tra học sinh từ folder
+                  renderItem={(test) => (
+                    <List.Item>{test.name}</List.Item>
+                  )}
+                />
+              </div>
+            )}
             <Button
               type="dashed"
               onClick={() => openTestModal(folder.id)}
